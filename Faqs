@@ -54,10 +54,27 @@ Q8:  Write a lambda that return lenght of the string ?
 Q9:  What is type reference ? 
      If the compiler can guess types automatically based on the context that is called type refrence . 
      
-Q10 .     
-     
-
+Q10 . What is functional interface ?
+      If an interface contains only single abstract method then it is called functional interface . 
+      It can be used to invoke a lambda expression . 
+      For example : Runnable , Callable , Comparable etc as tey contain only one method . 
+      Runnable contains only run() .
+      
+ Q11 : Can i take default and static mathods in an functional interface . 
+       Yes any number of default and static method can be taken . But abstract method has to be only and only one . 
+       
+ Q12:  Is it a functional interface ?
+       public interface Intref{
+       
+       public void m1();
+       default puclic void m2();
+       default puclic void m3();
+       puclic static void m4();  
+       
+       }
+ Ans : Yes , as it has only single abstract method .       
        
        
        
+      
       
