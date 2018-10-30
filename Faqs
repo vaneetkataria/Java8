@@ -6,4 +6,42 @@ Ans :1.  To simplify programming by reducing no of line of code with Lambda expr
 
 Q2: List feautures of java 8 ? 
 Ans : Lambda expression , Functional interfaces , Predicates , Functions , Consumers , Producers , Default methods and static methods in interfaces , Mehtod and constructor references by :: operator , joda and stream api  . 
+
+Q3: which language uses lambda expression very first and what others use it . ? 
+Ans : LISP was the first . C, C++ , Ruby , scala ,.Net , python are using it already . Unfotunately java is recent and one 
+      of the last . 
+      
+Q4: Benfefits of lambda ?
+Ans :  1.  To enable functional programming in java . Code and behoviour can be sent as a method argument which was only possible 
+           before by using anonimous inner classes only . Like ActivityOpeartionTemplate . 
+       2.  Simplicity in wiring code very less line of code is required . Readable , Maintanable and consise code . 
+       3.  To enable parllel processing also lambda is used . 
+       4.  To use api very easily . 
+       
+Q5: What is a lambda expression ?
+Ans : It is an anonymous function simple . Means a function not having modifiers not having any name and return type . 
+
+Q6: Write a simplest lambda expression ? 
+Ans : public void m1()
+      {
+      sop("vaneet");
+      }
+      Now as modifiers , name and return is not applicable . Hence ()->{sop("vaneet");} Hence this dows not have 
+      any modifier , return and method name . 
+ 
+Q7:  Write a lambda expression to take two int values and print some of two ? 
+Ans :public void m1(int a , int b)
+     {
+     sop(a+b);
+     }
+     
+     Now lambda is (int a , int b)-> {sop(a+b);} Hence here also modifier , return type and mehtod name is not applicable . 
+
+Q8:  Write a lambda that return lenght of the string ? 
+     (String s) -> { return s.lenght();}
+     
+
+       
+       
+       
       
