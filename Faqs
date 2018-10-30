@@ -35,10 +35,26 @@ Ans :public void m1(int a , int b)
      sop(a+b);
      }
      
-     Now lambda is (int a , int b)-> {sop(a+b);} Hence here also modifier , return type and mehtod name is not applicable . 
+     1. Now lambda is (int a , int b)-> {sop(a+b);} Hence here also modifier , return type and method name is not applicable . 
+     2. Also can be written as (int a , int b) -> sop (a+b); . It contains only one line in lambda body hence curly braces are
+     optional .
+     3. (a, b) -> sop(a+b); More consise code .
 
 Q8:  Write a lambda that return lenght of the string ? 
-     (String s) -> { return s.lenght();}
+     public int m1(String s)
+     {
+     return s.lentgh();
+     }
+     Also further simplification : (String s) -> { return s.lenght();} 
+     Also further simplification : (String s) -> return s.lenght();              [As body contains only one statement] 
+     Also further simplification : (s) -> return Objects.isNull(s)? 0 : s.lenght();
+     Also further simplification : (s)->  s.length();
+     Also further simplification :  s ->  s.length();
+     
+Q9:  What is type reference ? 
+     If the compiler can guess types automatically based on the context that is called type refrence . 
+     
+Q10 .     
      
 
        
