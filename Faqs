@@ -1,0 +1,9 @@
+Q1 : Objectives of Java 8 ?
+Ans :1.  To simplify programming by reducing no of line of code with Lambda expressions . As with Lambda expressions less verbose code 
+      can be written by reducing to write very obvious things in code which can be understood by compiler without writing . 
+     2. To take the benfits of functional programming using lambda exporessions  . 
+     3. To take the benefits of parallel processing i.e. all cpu cores . 
+
+Q2: List feautures of java 8 ? 
+Ans : Lambda expression , Functional interfaces , Predicates , Functions , Consumers , Producers , Default methods and static methods in interfaces , Mehtod and constructor references by :: operator , joda and stream api  . 
+      
