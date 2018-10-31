@@ -175,10 +175,45 @@ Q18:  Why funtional Interfaces should contain only one abstract method ?
 Ans : While writing lambdas expressions no anonymous inner class is created . No .class file is generated for a lambda. 
       A lambda expression is a anonymous function with no access modifier , no return type and no name . 
       When we write such expressions and compile the code the compiler checks the functional interface and verifies if this 
-      lambda expression can be written for this iinterface . If a single method decalred with same signature is present in 
+      lambda expression can be written for this interface . If a single method decalred with same signature is present in 
       interface the compiler maps this lambda as an implemetation of this fucntion . But if multiple methods with the same
       signature as lambda are present the compiler will get ambiguity for mapping this lambda to a method . Hence to avoid
       this isssue it is a restriction that FI should have only one abstract method in it . 
+      If done so copiler will complain about multiple non overriding abstract methods . Interface InterfaceName is not
+      a functiona interface . 
+      
+      
+Q19:  Differentiate anonymous inner class and lambda expression ? 
+Ans : 1. Lambda expression is not the direct replacement of anonymous inner class . Anonymous inner class has much
+      larger functionality as compared to lambda expression . Lambda can replace anonymous inner class in one and 
+      only one case where interface has single abstract method only . 
+      2. AIC can implement a concrete class , abstract class and an interface but lambda can implement only an interface
+         with SAM . 
+      3. AIC can have instance variable but lambda cannot have instance variable as it is method not a class. 
+      4. this pointer in anonymous inner class refers to current AIC object but in lambda it refers to a class
+         creatint it . If an AIC and outer class both have a varible X then inside AIC this.x will be the x value 
+         declared as an instance variable of AIC . for accessing outer class u need to witre OuterClassName.this.x 
+         But with lambda this.x will always be outer class instance variable . 
+      5. In both AIC and lambdas if  cretaed as method local and if some method local varible is accessed inside them then
+         this varible must me final . 
+      6. AIM are compiled as separate classes but lambdas are not they are invoke dynamic on compiler level . 
+      7. In AIM objects are created on heap but lambdas are created in method area memory only . 
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+     
+     
+     
             
         
         
