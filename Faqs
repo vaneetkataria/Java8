@@ -161,6 +161,24 @@ Q10 . What is functional interface ?
         4. Intref3 will compile as it has only one inhenrited m1() abstract method . 
         5. Intref4, 5, 6 will compile as they don't have @FunctionalInterface annotation . Intref4 , 5 still
            have single abstract method hence they can be used to invoke a lambda . They are still functionalInetrfaces . 
+
+Q17:  Why should be annotate functional interfaces with @FunctionalInterface annoatation ? .
+Ans:  1. If in a code base suppose on mupltiple places lambda expressions have been written with a functional interface not 
+      annoatated with this annotation and if some one accidently added a new abstract method in this interface then 
+      after project release all other lambda ecxpressions will thow exceptions as they are being invoked by an interface 
+      which has multiple abstract methods means which is not a functional interface . 
+      2. Hence to avoid such issue always mark functinal inetrfaces with this annoation so that it acts as a 
+      documentation for other developers to not to add new abstract mehotod in it . 
+      3. If some one now will add compiler will complain . 
+      
+Q18:  Why funtional Interfaces should contain only one abstract method ? 
+Ans : While writing lambdas expressions no anonymous inner class is created . No .class file is generated for a lambda. 
+      A lambda expression is a anonymous function with no access modifier , no return type and no name . 
+      When we write such expressions and compile the code the compiler checks the functional interface and verifies if this 
+      lambda expression can be written for this iinterface . If a single method decalred with same signature is present in 
+      interface the compiler maps this lambda as an implemetation of this fucntion . But if multiple methods with the same
+      signature as lambda are present the compiler will get ambiguity for mapping this lambda to a method . Hence to avoid
+      this isssue it is a restriction that FI should have only one abstract method in it . 
             
         
         
