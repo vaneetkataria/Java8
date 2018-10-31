@@ -54,10 +54,172 @@ Q8:  Write a lambda that return lenght of the string ?
 Q9:  What is type reference ? 
      If the compiler can guess types automatically based on the context that is called type refrence . 
      
-Q10 .     
-     
+Q10 . What is functional interface ?
+      If an interface contains only single abstract method then it is called functional interface . 
+      It can be used to invoke a lambda expression . 
+      For example : Runnable , Callable , Comparable etc as tey contain only one method . 
+      Runnable contains only run() .
+      
+ Q11 : Can i take default and static mathods in an functional interface . 
+       Yes any number of default and static method can be taken . But abstract method has to be only and only one . 
+       
+ Q12:  Is it a functional interface ?
+       public interface Intref{
+       
+       public void m1();
+       default puclic void m2();
+       default puclic void m3();
+       puclic static void m4();  
+       
+       }
+ Ans : Yes , as it has only single abstract method . 
+ 
+ Q13:  Is it a functional interface ?
+       public interface Intref{
+       
+       public void m1();
+       public void m2();
+       default puclic void m2();
+       default puclic void m3();
+       puclic static void m4();  
+       
+       }
+ Ans : No , as it has two abstract methods .
+ 
+ Q14: What is @FunctionalInterface annotation ?
+ Ans : @FunctionalInterface annotation is used to specify on an interface to indicate that this interface is 
+       a functional interface . Means it cannot have 0 or multiple abstract methods . If anybody accedently put 
+       0 or multiple abstract methods in it then it will be a comile time error saying Unexpected @FunctionalInterface
+       annoattion , Multiple non overriding abstract methods . 
+ 
+      
+  Q15: Which will compile ?      
+ 
+          @FunctionalInterface
+          interface Intref{
+            public void m1();
+           }
+           
+           @FunctionalInterface
+          interface Intref{
+            public void m1();
+            public void m2();
+           }
+           
+           @FunctionalInterface
+          interface Intref{
+            
+           }
+       
+  Ans : Only First One as second and third have two and 0 abstract methods .As @FunctionalInterface annoation has been 
+        specified explicitly it means compiler will complain for the case 2 and 3 . 
+        
+ Q16:    Which will compile and why and why not ?
+   
+          @FunctionalInterface
+          interface Base{
+            public void m1();
+            default void m2(){}
+            public static void m3(){}
+            public static void m4(){}
+           } 
 
+          @FunctionalInterface 
+          interface Intref1 extends Base{
+            public void m1();
+           }
+           
+          @FunctionalInterface
+          interface Intref2 extends Base{
+         
+            public void m2();
+           }
+           
+           @FunctionalInterface
+          interface Intref3 extends Base{
+            
+           } 
+          
+          interface Intref4 extends Base{
+            public void m1();
+           }
+
+          interface Intref5 extends Base{
+            public void m1();
+            public void m2();
+           }
+           
+           
+          interface Intref6 extends Base{
+            
+           }
+           
+ Ans :  1. Base will compiler as it has only one abstract method and multiple static and default methods which are allowed.
+        2. Intref1 will compile as it itself is a functional interface by annotation and m1() in Intref1 overrides Base m1()
+        which means overall single abstract method is present which means it will compile . 
+        3. Intref2 will not compile as it has m1() and m2() two abstract methods . 
+        4. Intref3 will compile as it has only one inhenrited m1() abstract method . 
+        5. Intref4, 5, 6 will compile as they don't have @FunctionalInterface annotation . Intref4 , 5 still
+           have single abstract method hence they can be used to invoke a lambda . They are still functionalInetrfaces . 
+
+Q17:  Why should be annotate functional interfaces with @FunctionalInterface annoatation ? .
+Ans:  1. If in a code base suppose on mupltiple places lambda expressions have been written with a functional interface not 
+      annoatated with this annotation and if some one accidently added a new abstract method in this interface then 
+      after project release all other lambda ecxpressions will thow exceptions as they are being invoked by an interface 
+      which has multiple abstract methods means which is not a functional interface . 
+      2. Hence to avoid such issue always mark functinal inetrfaces with this annoation so that it acts as a 
+      documentation for other developers to not to add new abstract mehotod in it . 
+      3. If some one now will add compiler will complain . 
+      
+Q18:  Why funtional Interfaces should contain only one abstract method ? 
+Ans : While writing lambdas expressions no anonymous inner class is created . No .class file is generated for a lambda. 
+      A lambda expression is a anonymous function with no access modifier , no return type and no name . 
+      When we write such expressions and compile the code the compiler checks the functional interface and verifies if this 
+      lambda expression can be written for this interface . If a single method decalred with same signature is present in 
+      interface the compiler maps this lambda as an implemetation of this fucntion . But if multiple methods with the same
+      signature as lambda are present the compiler will get ambiguity for mapping this lambda to a method . Hence to avoid
+      this isssue it is a restriction that FI should have only one abstract method in it . 
+      If done so copiler will complain about multiple non overriding abstract methods . Interface InterfaceName is not
+      a functiona interface . 
+      
+      
+Q19:  Differentiate anonymous inner class and lambda expression ? 
+Ans : 1. Lambda expression is not the direct replacement of anonymous inner class . Anonymous inner class has much
+      larger functionality as compared to lambda expression . Lambda can replace anonymous inner class in one and 
+      only one case where interface has single abstract method only . 
+      2. AIC can implement a concrete class , abstract class and an interface but lambda can implement only an interface
+         with SAM . 
+      3. AIC can have instance variable but lambda cannot have instance variable as it is method not a class. 
+      4. this pointer in anonymous inner class refers to current AIC object but in lambda it refers to a class
+         creatint it . If an AIC and outer class both have a varible X then inside AIC this.x will be the x value 
+         declared as an instance variable of AIC . for accessing outer class u need to witre OuterClassName.this.x 
+         But with lambda this.x will always be outer class instance variable . 
+      5. In both AIC and lambdas if  cretaed as method local and if some method local varible is accessed inside them then
+         this varible must me final . 
+      6. AIM are compiled as separate classes but lambdas are not they are invoke dynamic on compiler level . 
+      7. In AIM objects are created on heap but lambdas are created in method area memory only . 
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+     
+     
+     
+            
+        
+        
+   
+   
        
        
-       
+      
       
