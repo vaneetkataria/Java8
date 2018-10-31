@@ -25,12 +25,47 @@ public class Lambdas {
 		String SORT_AN_ARRAYLIST = "SORT_AN_ARRAYLIST";
 		String TREE_SET_CASE = "TREE_SET_CASE";
 		String TREE_MAP_CASE = "TREE_MAP_CASE";
+		String EMPLOYEE_CASE = "EMPLOYEE_CASE";
+
+	}
+
+	public static class Employee {
+
+		private int Age;
+		private String name;
+
+		public Employee(int age, String name) {
+			super();
+			Age = age;
+			this.name = name;
+		}
+
+		public int getAge() {
+			return Age;
+		}
+
+		public void setAge(int age) {
+			Age = age;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return "Employee [Age=" + Age + ", name=" + name + "]";
+		}
 
 	}
 
 	public static void main(String args[]) {
 		Lambdas lambdas = new Lambdas();
-		lambdas.executeCase(LambdaTestCases.TREE_MAP_CASE);
+		lambdas.executeCase(LambdaTestCases.EMPLOYEE_CASE);
 	}
 
 	public void executeCase(String testCase) {
@@ -58,6 +93,9 @@ public class Lambdas {
 			break;
 		case LambdaTestCases.TREE_MAP_CASE:
 			treeMapCase();
+			break;
+		case LambdaTestCases.EMPLOYEE_CASE:
+			employeeCase();
 			break;
 
 		default:
@@ -212,6 +250,28 @@ public class Lambdas {
 		mapDesc.put(4, "4");
 		mapDesc.put(5, "5");
 		System.out.println("Descending Map is : " + mapDesc);
+
+	}
+
+	private void employeeCase() {
+		List<Employee> employees = new ArrayList<>();
+		employees.add(new Employee(20, "ela"));
+		employees.add(new Employee(21, "dla"));
+		employees.add(new Employee(22, "cla"));
+		employees.add(new Employee(23, "bla"));
+		employees.add(new Employee(24, "ala"));
+		employees.add(new Employee(20, "aela"));
+		System.out.println("Employees are " + employees);
+
+		Collections.sort(employees, (e1, e2) -> e1.getAge() < e2.getAge() ? -1 : e1.getAge() > e2.getAge() ? 1 : 0);
+		System.out.println("Employees sorted by age are : " + employees);
+
+		Collections.sort(employees, (e1, e2) -> e1.getName().compareTo(e2.getName()));
+		System.out.println("Employees sorted by name are : " + employees);
+
+		Collections.sort(employees, (e1, e2) -> (e1.getAge() > e2.getAge()) ? 1
+				: (e1.getAge() < e2.getAge()) ? -1 : e1.getName().compareTo(e2.getName()));
+		System.out.println("Employees sorted by age then name are : " + employees);
 
 	}
 
