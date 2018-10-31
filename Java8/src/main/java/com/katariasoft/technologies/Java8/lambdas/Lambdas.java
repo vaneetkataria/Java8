@@ -12,9 +12,13 @@ import java.util.TreeSet;
 
 import com.katariasoft.technologies.Java8.interfaces.funtional.AreaCalculator;
 import com.katariasoft.technologies.Java8.interfaces.funtional.BaseFunctionalInterface;
+import com.katariasoft.technologies.Java8.interfaces.funtional.Circle;
+import com.katariasoft.technologies.Java8.interfaces.funtional.Cube;
 import com.katariasoft.technologies.Java8.interfaces.funtional.StringLenghtProvider;
 
 public class Lambdas {
+
+	private double pi = 3.18;
 
 	public static interface LambdaTestCases {
 		String HELLO_WORLD = "HELLOWORLD";
@@ -26,46 +30,14 @@ public class Lambdas {
 		String TREE_SET_CASE = "TREE_SET_CASE";
 		String TREE_MAP_CASE = "TREE_MAP_CASE";
 		String EMPLOYEE_CASE = "EMPLOYEE_CASE";
-
-	}
-
-	public static class Employee {
-
-		private int Age;
-		private String name;
-
-		public Employee(int age, String name) {
-			super();
-			Age = age;
-			this.name = name;
-		}
-
-		public int getAge() {
-			return Age;
-		}
-
-		public void setAge(int age) {
-			Age = age;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public String toString() {
-			return "Employee [Age=" + Age + ", name=" + name + "]";
-		}
+		String CIRCLE_CASE = "CIRCLE_CASE";
+		String CUBE_CASE = "CUBE_CASE";
 
 	}
 
 	public static void main(String args[]) {
 		Lambdas lambdas = new Lambdas();
-		lambdas.executeCase(LambdaTestCases.EMPLOYEE_CASE);
+		lambdas.executeCase(LambdaTestCases.CUBE_CASE);
 	}
 
 	public void executeCase(String testCase) {
@@ -96,6 +68,12 @@ public class Lambdas {
 			break;
 		case LambdaTestCases.EMPLOYEE_CASE:
 			employeeCase();
+			break;
+		case LambdaTestCases.CIRCLE_CASE:
+			circleCase();
+			break;
+		case LambdaTestCases.CUBE_CASE:
+			cubeCase();
 			break;
 
 		default:
@@ -272,6 +250,99 @@ public class Lambdas {
 		Collections.sort(employees, (e1, e2) -> (e1.getAge() > e2.getAge()) ? 1
 				: (e1.getAge() < e2.getAge()) ? -1 : e1.getName().compareTo(e2.getName()));
 		System.out.println("Employees sorted by age then name are : " + employees);
+
+	}
+
+	private void circleCase() {
+		// This will become explicitly final cannot be changed in methods of AIC
+		double methodLocalPi = 3.15;
+		Circle circle = new Circle() {
+			private double pi = 3.14;
+
+			@Override
+			public double getParameter(int radius) {
+				System.out.println("This class pi is :" + this.pi);
+				return 2 * this.pi * radius;
+			}
+
+			@Override
+			public double getArea(int radius) {
+				System.out.println("Method Local pi is :" + methodLocalPi);
+				System.out.println("Outer class pi is :" + Lambdas.this.pi);
+				return methodLocalPi * radius * radius;
+			}
+		};
+
+		System.out.println("Area is :" + circle.getArea(5));
+		System.out.println("Parameter is :" + circle.getParameter(5));
+
+	}
+
+	/*
+	 * Lambda expressions can use variable from local , method local as well as on
+	 * class level . 1. Method local variables are accessed directly with variable
+	 * name but cannot be changes if used in lambdas and become explicitly final
+	 * without declaration .
+	 * 
+	 * 2. Lambda local can be accessed with name and can be changed . 3. class level
+	 * can be accessed with this.varible name or directly with variable name .
+	 */
+	private void cubeCase() {
+		// This will become explicit;y final cannot be changed in methods of AIC
+		double methodLocalPi = 3.15;
+
+		Cube cube3 = r -> {
+			System.out.println("Using class level pi :" + this.pi);
+			return this.pi * r * r * r;
+		};
+		System.out.println("Area with class level pi is : " + cube3.getArea(5));
+
+		Cube cube2 = r -> {
+			System.out.println("Using method local pi :" + methodLocalPi);
+			return methodLocalPi * r * r * r;
+		};
+		System.out.println("Area with method local pi is : " + cube2.getArea(5));
+
+		Cube cube = r -> {
+			double pi = 3.14;
+			System.out.println("Using lambda local pi :" + pi);
+			return pi * r * r * r;
+		};
+		System.out.println("Area with lambda level pi is : " + cube.getArea(5));
+
+	}
+
+	public static class Employee {
+
+		private int Age;
+		private String name;
+
+		public Employee(int age, String name) {
+			super();
+			Age = age;
+			this.name = name;
+		}
+
+		public int getAge() {
+			return Age;
+		}
+
+		public void setAge(int age) {
+			Age = age;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return "Employee [Age=" + Age + ", name=" + name + "]";
+		}
 
 	}
 
