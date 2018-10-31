@@ -189,15 +189,13 @@ Ans : 1. Lambda expression is not the direct replacement of anonymous inner clas
       only one case where interface has single abstract method only . 
       2. AIC can implement a concrete class , abstract class and an interface but lambda can implement only an interface
          with SAM . 
-      3. AIC can have instance variable but lambda cannot have instance variable as it is method not a class. 
-      4. this pointer in anonymous inner class refers to current AIC object but in lambda it refers to a class
-         creatint it . If an AIC and outer class both have a varible X then inside AIC this.x will be the x value 
-         declared as an instance variable of AIC . for accessing outer class u need to witre OuterClassName.this.x 
-         But with lambda this.x will always be outer class instance variable . 
-      5. In both AIC and lambdas if  cretaed as method local and if some method local varible is accessed inside them then
-         this varible must me final . 
-      6. AIM are compiled as separate classes but lambdas are not they are invoke dynamic on compiler level . 
-      7. In AIM objects are created on heap but lambdas are created in method area memory only . 
+      3. lambda cannot have instance variables .
+      4. Both can access class level variables AIM by OuterClassName.this.varibleName and lambda by this.variableName .
+         In lambdas this refers to outer enclosing class and in AIM this refers to this AIM .
+      5. Both can use methodLocal variables but these variables is used become explicitly final and cannot be changed . 
+      6. . Both can use local variables and do anything with them .
+      7. AIM are compiled as separate classes but lambdas are not they are invoke dynamic on compiler level . 
+      8. In AIM objects are created on heap but lambdas are created in method area memory only . 
       
       
 
@@ -210,7 +208,7 @@ Ans : 1. Lambda expression is not the direct replacement of anonymous inner clas
 
 
 
-
+// 4
      
      
      
