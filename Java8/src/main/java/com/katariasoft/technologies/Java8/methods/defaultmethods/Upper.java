@@ -19,8 +19,12 @@ public interface Upper {
 	// 7. Not allowed as default methods are only for non static context .
 	// default static void m1() {}
 
-	// All method overriding rules will be same as before following all Liskov's
+	// 8.All method overriding rules will be same as before following all Liskov's
 	// substitution principle
+	// 9. Also this is a by default public method and declare public or not .
+	// Implementer class
+	// overriding this method cannot reduce scope by saying private , protected or
+	// default(Not specifying any access modifier .)
 
 	default void printMessage() {
 		System.out.println("Message printed by upper Interface message printer.");

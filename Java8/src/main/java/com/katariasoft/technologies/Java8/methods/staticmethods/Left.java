@@ -32,15 +32,15 @@ public interface Left extends Upper {
 	// }
 	// 10. possible to have public static method . specify public or not its by
 	// default public
+	// 11 . This is a general public utility method only which cannot be overridden
+	// by any implementation class . It can be accessed from any where with the name
+	// of this interface only
 	static String getMessage() {
 		return "Message from Left interface static method .";
 
 	}
 
-	// 1 . This is a general public utility method only which cannot be overridden
-	// by any implementation class . It can be accessed from any where with the name
-	// of this interface only
-	// 2. possible to have main method in interfaces in java 8 . By default it is
+	// possible to have main method in interfaces in java 8 . By default it is
 	// public .
 	static void main(String args[]) {
 		System.out.println(getMessage());

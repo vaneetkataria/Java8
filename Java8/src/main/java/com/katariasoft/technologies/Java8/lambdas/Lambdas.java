@@ -37,7 +37,7 @@ public class Lambdas {
 
 	public static void main(String args[]) {
 		Lambdas lambdas = new Lambdas();
-		lambdas.executeCase(LambdaTestCases.CUBE_CASE);
+		lambdas.executeCase(LambdaTestCases.EMPLOYEE_CASE);
 	}
 
 	public void executeCase(String testCase) {
