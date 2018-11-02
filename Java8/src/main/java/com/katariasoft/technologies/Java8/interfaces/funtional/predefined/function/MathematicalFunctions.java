@@ -45,8 +45,12 @@ public class MathematicalFunctions {
 	}
 
 	public Function<BigDecimal, BigDecimal> paintChargesForHemispherePlateFunction() {
-		return paintChargesCalculationFunction()
-				.compose(hemispherePlateAreaFinder().compose(radiusOfHalfSphereProviderFunction()));
+		return paintChargesCalculationFunction().compose(hemispherePlateAreaFinder());
+	}
+
+	// function to find charges to paint a plate single area with radius r .
+	public Function<BigDecimal, BigDecimal> doublePlateAreaPainChargesCalculationFunction() {
+		return cirleAreaProviderFunction().andThen(paintChargesCalculationFunction());
 	}
 
 	public static void main(String args[]) {
@@ -69,6 +73,9 @@ public class MathematicalFunctions {
 
 		System.out.println("Paint chnarges for a palte for a hemisphere having volume 862.48 is : "
 				+ functions.paintChargesForHemispherePlateFunction().apply(BigDecimal.valueOf(862.48)));
+
+		System.out.println("Paint chnarges on two side of a palte with radius 8.19 : "
+				+ functions.doublePlateAreaPainChargesCalculationFunction().apply(BigDecimal.valueOf(8.19)));
 
 	}
 
