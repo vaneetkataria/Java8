@@ -1,4 +1,4 @@
-package com.katariasoft.technologies.Java8.interfaces.funtional.predefined.bipridicate;
+package com.katariasoft.technologies.Java8.interfaces.funtional.predefined.bipredicate;
 
 import java.util.ArrayList;
 import java.util.List;
