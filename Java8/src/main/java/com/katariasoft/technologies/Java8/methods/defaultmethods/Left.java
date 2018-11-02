@@ -18,7 +18,10 @@ public interface Left extends Upper {
 	// void m1(); or public void m1();
 	// 7. Not allowed as default methods are only for non static context .
 	// default static void m1() {}
-	default void printMessage(){
+
+	// All method overriding rules will be same as before following all Liskov's
+	// substitution principle
+	default void printMessage() {
 		Upper.super.printMessage();
 		System.out.println("Message printed by Left Interface message printer.");
 	}

@@ -18,6 +18,9 @@ public interface Right {
 	// void m1(); or public void m1();
 	// 7. Not allowed as default methods are only for non static context .
 	// default static void m1() {}
+
+	// All method overriding rules will be same as before following all Liskov's
+	// substitution principle
 	default void printMessage() {
 		System.out.println("Message printed by Right Interface message printer.");
 
