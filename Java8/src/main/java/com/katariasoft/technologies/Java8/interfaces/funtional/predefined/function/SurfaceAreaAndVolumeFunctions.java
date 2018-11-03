@@ -3,22 +3,16 @@ package com.katariasoft.technologies.Java8.interfaces.funtional.predefined.funct
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.function.Function;
-import static com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridicate.MiscPredicates.*;
+import static com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridicate.BasicValidationPredicates.*;
+import static com.katariasoft.technologies.Java8.interfaces.funtional.predefined.function.BasicMathematicalFunctions.*;
 
-public class MathematicalFunctions {
+public class SurfaceAreaAndVolumeFunctions {
 
-	public Function<BigDecimal, BigDecimal> scale2RoundingOffFunction() {
-		return b -> b.setScale(2, RoundingMode.HALF_UP);
+	private SurfaceAreaAndVolumeFunctions() {
 	}
 
-	public Function<BigDecimal, BigDecimal> cubeRootFunction() {
-		return scale2RoundingOffFunction().compose(
-				v -> bigDecimalNullOrZero().test(v) ? BigDecimal.ZERO : BigDecimal.valueOf(Math.cbrt(v.doubleValue())));
-	}
-
-	public Function<BigDecimal, BigDecimal> squareRootFunction() {
-		return scale2RoundingOffFunction().compose(
-				v -> bigDecimalNullOrZero().test(v) ? BigDecimal.ZERO : BigDecimal.valueOf(Math.sqrt(v.doubleValue())));
+	public static SurfaceAreaAndVolumeFunctions getIntance() {
+		return new SurfaceAreaAndVolumeFunctions();
 	}
 
 	// volume = 1/2 pi r cube
@@ -49,21 +43,39 @@ public class MathematicalFunctions {
 	}
 
 	// function to find charges to paint a plate single area with radius r .
-	public Function<BigDecimal, BigDecimal> doublePlateAreaPainChargesCalculationFunction() {
+	public Function<BigDecimal, BigDecimal> singlePlateAreaPainChargesCalculationFunction() {
 		return cirleAreaProviderFunction().andThen(paintChargesCalculationFunction());
 	}
 
+	public Function<Integer, String> IntegerToStringFunction() {
+		return i -> i + "";
+	}
+
+	public Function<String, Double> stringToDoubleFunction() {
+		return s -> Double.valueOf(s);
+	}
+
+	public Function<Double, String> doubleToStringFunction() {
+		return d -> d + "";
+	}
+
+	public Function<Integer, String> integerToDoubleValStringRep() {
+		// return
+		// IntegerToStringFunction().andThen(stringToDoubleFunction()).andThen(doubleToStringFunction());
+		return doubleToStringFunction().compose(stringToDoubleFunction()).compose(IntegerToStringFunction());
+	}
+
 	public static void main(String args[]) {
-		MathematicalFunctions functions = new MathematicalFunctions();
+		SurfaceAreaAndVolumeFunctions functions = new SurfaceAreaAndVolumeFunctions();
 
 		System.out.println("Scale 2 Value of 570.0190876 is : "
-				+ functions.scale2RoundingOffFunction().apply(BigDecimal.valueOf(570.0190876)));
+				+ scale2RoundingOffFunction().apply(BigDecimal.valueOf(570.0190876)));
 
 		System.out.println("Radius of half hemisphere having volume 862.48 is : "
 				+ functions.radiusOfHalfSphereProviderFunction().apply(BigDecimal.valueOf(862.48)));
 
-		System.out.println("CubeRoot of 627 is : " + functions.cubeRootFunction().apply(BigDecimal.valueOf(627)));
-		System.out.println("squareRoot of 627 is : " + functions.squareRootFunction().apply(BigDecimal.valueOf(627)));
+		System.out.println("CubeRoot of 627 is : " + cubeRootFunction().apply(BigDecimal.valueOf(627)));
+		System.out.println("squareRoot of 627 is : " + squareRootFunction().apply(BigDecimal.valueOf(627)));
 
 		System.out.println("Area Of the circle having radius of 8.19 is : "
 				+ functions.cirleAreaProviderFunction().apply(BigDecimal.valueOf(8.19)));
@@ -74,8 +86,11 @@ public class MathematicalFunctions {
 		System.out.println("Paint chnarges for a palte for a hemisphere having volume 862.48 is : "
 				+ functions.paintChargesForHemispherePlateFunction().apply(BigDecimal.valueOf(862.48)));
 
-		System.out.println("Paint chnarges on two side of a palte with radius 8.19 : "
-				+ functions.doublePlateAreaPainChargesCalculationFunction().apply(BigDecimal.valueOf(8.19)));
+		System.out.println("Paint chnarges on double side of a palte with radius 8.19 : "
+				+ functions.singlePlateAreaPainChargesCalculationFunction().apply(BigDecimal.valueOf(8.19)));
+
+		System.out.println("Integer value 5 represented in double as string is "
+				+ functions.integerToDoubleValStringRep().apply(5));
 
 	}
 
