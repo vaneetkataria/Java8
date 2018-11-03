@@ -8,6 +8,8 @@ import static com.katariasoft.technologies.Java8.interfaces.funtional.predefined
 
 public class SurfaceAreaAndVolumeFunctions {
 
+	private Function<BigDecimal, BigDecimal> radiusOfHemiSphereProviderFunction = radiusOfHalfSphereProviderFunction();
+
 	private SurfaceAreaAndVolumeFunctions() {
 	}
 

@@ -22,6 +22,11 @@ public class EmployeeFilterWithPredicate {
 			&& e.getSex().equalsIgnoreCase("male");
 	private Predicate<Employee> havingMaritalStatusMarried = e -> Objects.nonNull(e)
 			&& Objects.nonNull(e.getMaritalStatus()) && e.getMaritalStatus().equalsIgnoreCase("married");
+
+	public Predicate<Employee> getHavingDesignationTechLeadPredicate() {
+		return havingDesignationTechLead;
+	}
+
 	// provide pink slip to male employees working as technical lead in Bangluru
 	// having salary
 	// greater than 25000.
