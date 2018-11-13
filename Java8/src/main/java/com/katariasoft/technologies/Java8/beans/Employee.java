@@ -10,9 +10,10 @@ public class Employee {
 	private String designationBand;
 	private String maritalStatus;
 	private String sex;
+	private long phoneNumber;
 
 	public Employee(String name, byte age, String designation, double salary, String location, String designationBand,
-			String maritalStatus, String sex) {
+			String maritalStatus, String sex, long phoneNumber) {
 		super();
 		this.name = name;
 		this.age = age;
@@ -22,6 +23,7 @@ public class Employee {
 		this.designationBand = designationBand;
 		this.maritalStatus = maritalStatus;
 		this.sex = sex;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getName() {
@@ -88,11 +90,19 @@ public class Employee {
 		this.sex = sex;
 	}
 
+	public long getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(long phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [name=" + name + ", age=" + age + ", designation=" + designation + ", salary=" + salary
 				+ ", location=" + location + ", designationBand=" + designationBand + ", maritalStatus=" + maritalStatus
-				+ ", sex=" + sex + "]";
+				+ ", sex=" + sex + ", phoneNumber=" + phoneNumber + "]";
 	}
 
 }

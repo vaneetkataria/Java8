@@ -3,11 +3,20 @@ package com.katariasoft.technologies.Java8.interfaces.funtional.predefined.consu
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.LongConsumer;
 
 import com.katariasoft.technologies.Java8.beans.Employee;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
 
 public class EmployeesConsumer {
+
+	private LongConsumer holidayAnnouncementSender = holidayAnnouncementSenderImpl();
+
+	private LongConsumer holidayAnnouncementSenderImpl() {
+		return l -> {
+			System.out.println("Sms sent to : " + l);
+		};
+	}
 
 	public Consumer<List<Employee>> sendSmsToEmployees() {
 		return l -> {
@@ -29,6 +38,10 @@ public class EmployeesConsumer {
 
 	public Consumer<List<Employee>> sendSmsEmailToUser() {
 		return sendSmsToEmployees().andThen(sendEmailToEmployees());
+	}
+
+	public LongConsumer getHolidayAnnouncementSender() {
+		return holidayAnnouncementSender;
 	}
 
 	public static void main(String args[]) {

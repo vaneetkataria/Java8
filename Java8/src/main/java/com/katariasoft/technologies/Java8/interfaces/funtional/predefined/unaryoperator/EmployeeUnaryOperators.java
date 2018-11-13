@@ -27,6 +27,7 @@ public class EmployeeUnaryOperators {
 	private UnaryOperator<List<Employee>> employeeDesignationBandIncrementor = employeeDesignationBandIncrementorImpl();
 	private Function<List<Employee>, List<Employee>> employeeSalaryDesignationIncrementor = employeeSalaryDesignationIncrementorImp();
 	private Function<List<Employee>, List<Employee>> employeeSalaryDesignationAndBandIncrementor = employeeSalaryDesignationAndBandIncrementorImp();
+	private UnaryOperator<Employee> singleEmployeeSalaryIncrementor = singleEmployeeSalaryIncrementorImpl();
 
 	private UnaryOperator<List<Employee>> employeeSalaryIncrementorImpl() {
 		return l -> {
@@ -57,6 +58,14 @@ public class EmployeeUnaryOperators {
 		};
 	}
 
+	private UnaryOperator<Employee> singleEmployeeSalaryIncrementorImpl() {
+		return e -> {
+			Objects.requireNonNull(e);
+			e.setSalary(e.getSalary() + 5000.0);
+			return e;
+		};
+	}
+
 	private Function<List<Employee>, List<Employee>> employeeSalaryDesignationIncrementorImp() {
 		return employeeSalaryIncrementor.compose(employeeDesignationIncrementor);
 	}
@@ -83,6 +92,10 @@ public class EmployeeUnaryOperators {
 
 	public Function<List<Employee>, List<Employee>> getemployeeSalaryDesignationAndBandIncrementorFunction() {
 		return employeeSalaryDesignationAndBandIncrementor;
+	}
+
+	public UnaryOperator<Employee> getSingleEmployeeSalaryIncrementor() {
+		return singleEmployeeSalaryIncrementor;
 	}
 
 	public static void main(String args[]) {
