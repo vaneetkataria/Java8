@@ -38,44 +38,8 @@ public class EmployeeListSorterUsingComparing {
 	private Comparator<Employee> naturalOrderCompataror = Comparator.naturalOrder();
 	private Comparator<Employee> reverseOrderCompataror = Comparator.reverseOrder();
 
-	public Comparator<Employee> getByName() {
-		return byName;
-	}
-
-	public Comparator<Employee> getByAge() {
-		return byAge;
-	}
-
-	public Comparator<Employee> getByDesignationBand() {
-		return byDesignationBand;
-	}
-
-	public Comparator<Employee> getBySalary() {
-		return bySalary;
-	}
-
-	public Comparator<Employee> getByMobileNo() {
-		return byMobileNo;
-	}
-
-	public Comparator<Employee> getByAddress() {
-		return byAddress;
-	}
-
 	public Comparator<Employee> getByRelevance() {
 		return byRelevanceChained;
-	}
-
-	public Comparator<Employee> getByRelevanceChained() {
-		return byRelevanceChained;
-	}
-
-	public Comparator<Employee> getByRelevanceNullFirst() {
-		return nullFirstByRelevanceChained;
-	}
-
-	public Comparator<Employee> getByRelevanceNullLast() {
-		return nullLastByRelevanceChained;
 	}
 
 	public static void main(String args[]) {

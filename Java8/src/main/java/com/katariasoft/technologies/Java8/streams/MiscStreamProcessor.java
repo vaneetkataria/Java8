@@ -16,7 +16,6 @@ public class MiscStreamProcessor {
 	private EmployeeUnaryOperators employeeUnaryOperators = new EmployeeUnaryOperators();
 	private EmployeeFilterWithPredicate employeeFilterWithPredicate = new EmployeeFilterWithPredicate();
 	private EmployeesConsumer employeesConsumer = new EmployeesConsumer();
-	private EmployeeListSorter employeeListSorter = new EmployeeListSorter();
 	private EmployeeListSorterUsingComparing employeeListSorterCmp = new EmployeeListSorterUsingComparing();
 
 	public static interface MiscStreamProcessorCases {
