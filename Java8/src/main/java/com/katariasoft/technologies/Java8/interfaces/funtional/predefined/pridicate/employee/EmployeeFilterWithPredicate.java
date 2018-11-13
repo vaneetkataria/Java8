@@ -39,6 +39,10 @@ public class EmployeeFilterWithPredicate {
 	private Predicate<Employee> onSiteEligible = (withSexMale.and(havingMaritalStatusMarried)).or(havingLocationUp)
 			.or(havingMaritalStatusMarried.and(withSexMale.negate()));
 
+	public Predicate<Employee> getPinkSlipEmployeesPredicate() {
+		return pinkSlipEmployee;
+	}
+
 	public List<Employee> filterEmployeesForPinkSlip(List<Employee> employees) {
 		return filter(pinkSlipEmployee, employees);
 	}
@@ -49,6 +53,10 @@ public class EmployeeFilterWithPredicate {
 
 	public List<Employee> filterEmployeesOnSiteEligible(List<Employee> employees) {
 		return filter(onSiteEligible, employees);
+	}
+
+	public Predicate<Employee> getPromotionEligibleEmployeesPredicate() {
+		return promotionEligible;
 	}
 
 	private List<Employee> filter(Predicate<Employee> coditionalPredicate, List<Employee> employees) {

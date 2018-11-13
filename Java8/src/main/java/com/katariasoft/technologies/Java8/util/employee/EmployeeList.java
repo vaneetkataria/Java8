@@ -16,12 +16,12 @@ public class EmployeeList {
 			employees.add(new Employee("Vaneet", (byte) 28, "TechLead", 75000, "Ambala", "3", "Married", "Male",
 					8742910240L));
 			employees
-					.add(new Employee("Pratapi", (byte) 29, "sse", 65000, "up", "2", "unMarried", "Male", 8742910241L));
-			employees.add(new Employee("Deepak", (byte) 26, "se", 55000, "up", "1", "unMarried", "Male", 8742910242L));
+					.add(new Employee("Pratapi", (byte) 29, "TechLead", 75000, "up", "2", "unMarried", "Male", 8742910241L));
+			employees.add(new Employee("Deepak", (byte) 26, "TechLead", 75000, "up", "1", "unMarried", "Male", 8742910242L));
 			employees.add(
-					new Employee("DheeraD", (byte) 25, "product", 45000, "up", "1", "unMarried", "Male", 8742910243L));
+					new Employee("DheeraD", (byte) 25, "TechLead", 75000, "up", "1", "unMarried", "Male", 8742910243L));
 			employees.add(
-					new Employee("Franka", (byte) 28, "qa", 35000, "faridabad", "1", "Married", "female", 8742910244L));
+					new Employee("Franka", (byte) 28, "TechLead", 75000, "faridabad", "1", "Married", "female", 8742910244L));
 			return employees;
 		};
 	}

@@ -24,14 +24,17 @@ public class MiscStreamProcessor {
 		String INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION = "INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION";
 		String PRINT_ALL_DESIGNATION_BANDS = "PRINT_ALL_DESIGNATION_BANDS";
 		String PRINT_ALL_SALARIES = "PRINT_ALL_SALARIES";
-		String SEND_SMS_TO_ALL_EMPLOYEES = "SEND_SMS_TO_ALL_EMPLOYEES";
+		String SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES = "SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES";
+		String printDistinctDesignations = "printDistinctDesignations";
+		String printDistinctSalaries = "printDistintSalaries";
+
 	}
 
 	public static void main(String args[]) {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.SEND_SMS_TO_ALL_EMPLOYEES;
+		String testCase = MiscStreamProcessorCases.printDistinctDesignations;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -52,8 +55,14 @@ public class MiscStreamProcessor {
 		case MiscStreamProcessorCases.PRINT_ALL_SALARIES:
 			processor.printAllSalaries(EmployeeList.get());
 			break;
-		case MiscStreamProcessorCases.SEND_SMS_TO_ALL_EMPLOYEES:
-			processor.sendHolidaysAnnouncementToAllPhoneNumbers(EmployeeList.get());
+		case MiscStreamProcessorCases.SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES:
+			processor.sendSmsToPromotionEligibleEmployees(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.printDistinctDesignations:
+			processor.printDistinctDesignations(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.printDistinctSalaries:
+			processor.printDistinctSalaries(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -101,9 +110,23 @@ public class MiscStreamProcessor {
 		employees.stream().mapToDouble(e -> e.getSalary()).forEach(System.out::println);
 	}
 
-	public void sendHolidaysAnnouncementToAllPhoneNumbers(List<Employee> employees) {
+	public void sendSmsToPromotionEligibleEmployees(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
-		employees.stream().mapToLong(e -> e.getPhoneNumber()).forEach(employeesConsumer.getHolidayAnnouncementSender());
+		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.mapToLong(e -> e.getPhoneNumber()).forEach(employeesConsumer.getHolidayAnnouncementSender());
+	}
+
+	public void printDistinctDesignations(List<Employee> employees) {
+		Objects.requireNonNull(employees, "Employee List cannot be empty.");
+		employees.stream().map(e -> {
+			Objects.requireNonNull(e);
+			return e.getDesignation();
+		}).distinct().forEach(System.out::println);
+	}
+
+	public void printDistinctSalaries(List<Employee> employees) {
+		Objects.requireNonNull(employees, "Employee List cannot be empty.");
+		employees.stream().mapToDouble(e -> e.getSalary()).distinct().forEach(System.out::println);
 	}
 
 }
