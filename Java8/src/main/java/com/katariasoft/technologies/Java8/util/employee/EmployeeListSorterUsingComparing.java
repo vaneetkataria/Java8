@@ -1,9 +1,15 @@
 package com.katariasoft.technologies.Java8.util.employee;
 
 import java.util.Comparator;
+import java.util.Objects;
+
 import com.katariasoft.technologies.Java8.beans.Employee;
 
 public class EmployeeListSorterUsingComparing {
+
+	// sort by employeeName length
+	private Comparator<String> stringLengthComparator = (s1, s2) -> (Objects.isNull(s1) || Objects.isNull(s2)) ? 0
+			: s1.length() > s2.length() ? 1 : s1.length() < s2.length() ? -1 : 0;
 
 	private Comparator<Employee> byName = Comparator.comparing(e -> e.getName());
 	private Comparator<Employee> byAge = Comparator.comparingInt(e -> e.getAge());
@@ -11,6 +17,8 @@ public class EmployeeListSorterUsingComparing {
 	private Comparator<Employee> bySalary = Comparator.comparingDouble(e -> e.getSalary());
 	private Comparator<Employee> byMobileNo = Comparator.comparingLong(e -> e.getPhoneNumber());
 	private Comparator<Employee> byAddress = Comparator.comparing(e -> e.getAddress());
+	private Comparator<Employee> byLocationNameLength = Comparator.comparing(e -> e.getLocation(),
+			stringLengthComparator);
 
 	// composite sorter
 	private Comparator<Employee> byRelevance = bySalary.thenComparing(byAge).thenComparing(byDesignationBand)
@@ -22,11 +30,10 @@ public class EmployeeListSorterUsingComparing {
 			.thenComparing(Comparator.comparing(e -> e.getDesignationBand()))
 			.thenComparing(Comparator.comparing(e -> e.getName()))
 			.thenComparing(Comparator.comparingLong(e -> e.getPhoneNumber()))
-			.thenComparing(Comparator.comparing(e -> e.getAddress()));
+			.thenComparing(Comparator.comparing(e -> e.getAddress())).thenComparing(byLocationNameLength);
 
 	private Comparator<Employee> nullFirstByRelevanceChained = Comparator.nullsFirst(byRelevanceChained);
 	private Comparator<Employee> nullLastByRelevanceChained = Comparator.nullsLast(byRelevanceChained);
-
 	private Comparator<Employee> naturalOrderCompataror = Comparator.naturalOrder();
 	private Comparator<Employee> reverseOrderCompataror = Comparator.reverseOrder();
 
