@@ -2,7 +2,11 @@ package com.katariasoft.technologies.Java8.beans;
 
 import java.util.Comparator;
 
-public class Employee {
+import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorterUsingComparing;
+
+public class Employee implements Comparable<Employee> {
+
+	Comparator<Employee> sortByRelevanceComparator = new EmployeeListSorterUsingComparing().getByRelevance();
 
 	private String name;
 	private byte age;
@@ -197,6 +201,11 @@ public class Employee {
 		return "Employee [name=" + name + ", age=" + age + ", designation=" + designation + ", salary=" + salary
 				+ ", location=" + location + ", designationBand=" + designationBand + ", maritalStatus=" + maritalStatus
 				+ ", sex=" + sex + ", phoneNumber=" + phoneNumber + ", address=" + address + "]";
+	}
+
+	@Override
+	public int compareTo(Employee o) {
+		return sortByRelevanceComparator.compare(this, o);
 	}
 
 }

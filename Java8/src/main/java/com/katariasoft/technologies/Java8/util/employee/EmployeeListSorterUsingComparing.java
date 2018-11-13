@@ -27,6 +27,9 @@ public class EmployeeListSorterUsingComparing {
 	private Comparator<Employee> nullFirstByRelevanceChained = Comparator.nullsFirst(byRelevanceChained);
 	private Comparator<Employee> nullLastByRelevanceChained = Comparator.nullsLast(byRelevanceChained);
 
+	private Comparator<Employee> naturalOrderCompataror = Comparator.naturalOrder();
+	private Comparator<Employee> reverseOrderCompataror = Comparator.reverseOrder();
+
 	public Comparator<Employee> getByName() {
 		return byName;
 	}
@@ -80,6 +83,13 @@ public class EmployeeListSorterUsingComparing {
 		System.out.println("Null Last sorted by refrence");
 		EmployeeList.getIncludingNulls().stream().sorted(sorter.nullLastByRelevanceChained)
 				.forEach(System.out::println);
+		System.out.println("######################");
+		System.out.println("Employees sorted by natural order");
+		EmployeeList.get().stream().sorted(sorter.naturalOrderCompataror).forEach(System.out::println);
+		System.out.println("######################");
+		System.out.println("Employees sorted by reverse order");
+		EmployeeList.get().stream().sorted(sorter.reverseOrderCompataror).forEach(System.out::println);
+
 	}
 
 }
