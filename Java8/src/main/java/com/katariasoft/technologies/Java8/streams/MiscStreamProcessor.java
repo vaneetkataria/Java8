@@ -10,12 +10,14 @@ import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.consum
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridicate.employee.EmployeeFilterWithPredicate;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.unaryoperator.EmployeeUnaryOperators;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
+import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorter;
 
 public class MiscStreamProcessor {
 
 	private EmployeeUnaryOperators employeeUnaryOperators = new EmployeeUnaryOperators();
 	private EmployeeFilterWithPredicate employeeFilterWithPredicate = new EmployeeFilterWithPredicate();
 	private EmployeesConsumer employeesConsumer = new EmployeesConsumer();
+	private EmployeeListSorter employeeListSorter = new EmployeeListSorter();
 
 	public static interface MiscStreamProcessorCases {
 		String PRINT_ALL_NAMES = "PRINT_ALL_NAMES";
@@ -27,6 +29,7 @@ public class MiscStreamProcessor {
 		String SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES = "SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES";
 		String printDistinctDesignations = "printDistinctDesignations";
 		String printDistinctSalaries = "printDistintSalaries";
+		String printEmployeesSortedByRelevance = "printEmployeesSortedByRelevance";
 
 	}
 
@@ -34,7 +37,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.printDistinctDesignations;
+		String testCase = MiscStreamProcessorCases.printEmployeesSortedByRelevance;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -63,6 +66,9 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.printDistinctSalaries:
 			processor.printDistinctSalaries(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.printEmployeesSortedByRelevance:
+			processor.printEmployeesSortedByRelevance(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -127,6 +133,12 @@ public class MiscStreamProcessor {
 	public void printDistinctSalaries(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
 		employees.stream().mapToDouble(e -> e.getSalary()).distinct().forEach(System.out::println);
+	}
+
+	public void printEmployeesSortedByRelevance(List<Employee> employees) {
+		Objects.requireNonNull(employees, "Employee List cannot be empty.");
+		System.out.println("Employee List without sorting : " + employees);
+		employees.stream().sorted(employeeListSorter.getRelevanceSorter()).forEach(System.out::println);
 	}
 
 }
