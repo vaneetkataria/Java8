@@ -11,6 +11,7 @@ import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridic
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.unaryoperator.EmployeeUnaryOperators;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorter;
+import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorterUsingComparing;
 
 public class MiscStreamProcessor {
 
@@ -18,6 +19,7 @@ public class MiscStreamProcessor {
 	private EmployeeFilterWithPredicate employeeFilterWithPredicate = new EmployeeFilterWithPredicate();
 	private EmployeesConsumer employeesConsumer = new EmployeesConsumer();
 	private EmployeeListSorter employeeListSorter = new EmployeeListSorter();
+	private EmployeeListSorterUsingComparing employeeListSorterCmp = new EmployeeListSorterUsingComparing();
 
 	public static interface MiscStreamProcessorCases {
 		String PRINT_ALL_NAMES = "PRINT_ALL_NAMES";
@@ -138,7 +140,7 @@ public class MiscStreamProcessor {
 	public void printEmployeesSortedByRelevance(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
 		System.out.println("Employee List without sorting : " + employees);
-		employees.stream().sorted(employeeListSorter.getRelevanceSorter()).forEach(System.out::println);
+		employees.stream().sorted(employeeListSorterCmp.getByRelevance()).forEach(System.out::println);
 	}
 
 }

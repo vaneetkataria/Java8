@@ -24,6 +24,34 @@ public class EmployeeListSorterUsingComparing {
 			.thenComparing(Comparator.comparingLong(e -> e.getPhoneNumber()))
 			.thenComparing(Comparator.comparing(e -> e.getAddress()));
 
+	public Comparator<Employee> getByName() {
+		return byName;
+	}
+
+	public Comparator<Employee> getByAge() {
+		return byAge;
+	}
+
+	public Comparator<Employee> getByDesignationBand() {
+		return byDesignationBand;
+	}
+
+	public Comparator<Employee> getBySalary() {
+		return bySalary;
+	}
+
+	public Comparator<Employee> getByMobileNo() {
+		return byMobileNo;
+	}
+
+	public Comparator<Employee> getByAddress() {
+		return byAddress;
+	}
+
+	public Comparator<Employee> getByRelevance() {
+		return byRelevanceChained;
+	}
+
 	public static void main(String args[]) {
 		EmployeeListSorterUsingComparing sorter = new EmployeeListSorterUsingComparing();
 		System.out.println("EmployeeList before sorting is :" + EmployeeList.get());
