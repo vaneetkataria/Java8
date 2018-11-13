@@ -24,6 +24,9 @@ public class EmployeeListSorterUsingComparing {
 			.thenComparing(Comparator.comparingLong(e -> e.getPhoneNumber()))
 			.thenComparing(Comparator.comparing(e -> e.getAddress()));
 
+	private Comparator<Employee> nullFirstByRelevanceChained = Comparator.nullsFirst(byRelevanceChained);
+	private Comparator<Employee> nullLastByRelevanceChained = Comparator.nullsLast(byRelevanceChained);
+
 	public Comparator<Employee> getByName() {
 		return byName;
 	}
@@ -52,6 +55,18 @@ public class EmployeeListSorterUsingComparing {
 		return byRelevanceChained;
 	}
 
+	public Comparator<Employee> getByRelevanceChained() {
+		return byRelevanceChained;
+	}
+
+	public Comparator<Employee> getByRelevanceNullFirst() {
+		return nullFirstByRelevanceChained;
+	}
+
+	public Comparator<Employee> getByRelevanceNullLast() {
+		return nullLastByRelevanceChained;
+	}
+
 	public static void main(String args[]) {
 		EmployeeListSorterUsingComparing sorter = new EmployeeListSorterUsingComparing();
 		System.out.println("EmployeeList before sorting is :" + EmployeeList.get());
@@ -59,6 +74,12 @@ public class EmployeeListSorterUsingComparing {
 		EmployeeList.get().stream().sorted(sorter.byRelevance).forEach(System.out::println);
 		System.out.println("###By Chained comparator");
 		EmployeeList.get().stream().sorted(sorter.byRelevanceChained).forEach(System.out::println);
+		System.out.println("###Null First sorted by refrence");
+		EmployeeList.getIncludingNulls().stream().sorted(sorter.nullFirstByRelevanceChained)
+				.forEach(System.out::println);
+		System.out.println("Null Last sorted by refrence");
+		EmployeeList.getIncludingNulls().stream().sorted(sorter.nullLastByRelevanceChained)
+				.forEach(System.out::println);
 	}
 
 }
