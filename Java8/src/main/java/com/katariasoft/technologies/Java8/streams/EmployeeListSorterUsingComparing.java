@@ -1,9 +1,10 @@
-package com.katariasoft.technologies.Java8.util.employee;
+package com.katariasoft.technologies.Java8.streams;
 
 import java.util.Comparator;
 import java.util.Objects;
 
 import com.katariasoft.technologies.Java8.beans.Employee;
+import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
 
 public class EmployeeListSorterUsingComparing {
 

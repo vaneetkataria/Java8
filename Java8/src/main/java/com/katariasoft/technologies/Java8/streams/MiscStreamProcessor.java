@@ -10,8 +10,6 @@ import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.consum
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridicate.employee.EmployeeFilterWithPredicate;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.unaryoperator.EmployeeUnaryOperators;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
-import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorter;
-import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorterUsingComparing;
 
 public class MiscStreamProcessor {
 

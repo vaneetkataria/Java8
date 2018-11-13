@@ -1,4 +1,4 @@
-package com.katariasoft.technologies.Java8.util.employee;
+package com.katariasoft.technologies.Java8.streams;
 
 import java.util.Comparator;
 import com.katariasoft.technologies.Java8.beans.Employee;

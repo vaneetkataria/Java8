@@ -2,7 +2,7 @@ package com.katariasoft.technologies.Java8.beans;
 
 import java.util.Comparator;
 
-import com.katariasoft.technologies.Java8.util.employee.EmployeeListSorterUsingComparing;
+import com.katariasoft.technologies.Java8.streams.EmployeeListSorterUsingComparing;
 
 public class Employee implements Comparable<Employee> {
 
