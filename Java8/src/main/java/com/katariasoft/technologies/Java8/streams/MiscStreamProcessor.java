@@ -37,7 +37,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.printDistinctDesignations;
+		String testCase = MiscStreamProcessorCases.INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -102,8 +102,14 @@ public class MiscStreamProcessor {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
 		System.out.println("Employees with old salary are :" + employees);
 		List<Employee> incrementedSalaryList = employees.stream()
+				.peek(e -> System.out.println("Next employee in the pipeline is:" + e.getName()))
 				.filter(employeeFilterWithPredicate.getHavingDesignationTechLeadPredicate())
-				.map(employeeUnaryOperators.getSingleEmployeeSalaryIncrementor()).collect(Collectors.toList());
+				.peek(e -> System.out
+						.println("Next filtered promotion eligible employee in the pipeline is:" + e.getName()))
+				.map(employeeUnaryOperators.getSingleEmployeeSalaryIncrementor())
+				.peek(e -> System.out.println(
+						"Next filtered promotion eligible employee salary incrimented in the pipeline is:" + e))
+				.collect(Collectors.toList());
 		System.out.println("Filtered Employees with new salary are :" + incrementedSalaryList);
 		return incrementedSalaryList;
 	}
