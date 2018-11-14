@@ -30,6 +30,7 @@ public class MiscStreamProcessor {
 		String printEmployeesSortedByRelevance = "printEmployeesSortedByRelevance";
 		String sendSmsEmailToEmployeesSkipFirstTwo = "sendSmsEmailToEmployeesSkipFirstTwo";
 		String minMaxCountOfSortedByRelevanceEmployees = "minMaxCountOfSortedByRelevanceEmployees";
+		String anyMatchAllMatchNoneMatch = "anyMatchAllMatchNoneMatch";
 
 	}
 
@@ -37,7 +38,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.minMaxCountOfSortedByRelevanceEmployees;
+		String testCase = MiscStreamProcessorCases.anyMatchAllMatchNoneMatch;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -75,6 +76,9 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.minMaxCountOfSortedByRelevanceEmployees:
 			processor.minMaxCountOfSortedByRelevanceEmployees(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.anyMatchAllMatchNoneMatch:
+			processor.anyMatchAllMatchNoneMatch(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -190,6 +194,19 @@ public class MiscStreamProcessor {
 				// .max(employeeListSorterCmp.getByRelevance()).ifPresent(System.out::println);
 				.count();
 		System.out.println("Num employees eligible for promotion is: " + count);
+
+	}
+
+	public void anyMatchAllMatchNoneMatch(List<Employee> employees) {
+		Objects.requireNonNull(employees);
+		System.out.println(employees.stream()
+				.peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out
+						.println("Next employee eligible for promotion in the pipeline " + "is :" + e.getName()))
+				// .anyMatch(e -> e.getAge() < 40));
+				// .allMatch(e -> e.getAge() < 28));
+				.noneMatch(e -> e.getAge() < 26));
 
 	}
 
