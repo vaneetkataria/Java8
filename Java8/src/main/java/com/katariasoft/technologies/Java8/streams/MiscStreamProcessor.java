@@ -37,7 +37,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.printDistinctSalaries;
+		String testCase = MiscStreamProcessorCases.printDistinctDesignations;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -130,10 +130,12 @@ public class MiscStreamProcessor {
 
 	public void printDistinctDesignations(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
-		employees.stream().map(e -> {
+		employees.stream().peek(e -> System.out.println("Next employee in the pipeline is:" + e.getName())).map(e -> {
 			Objects.requireNonNull(e);
 			return e.getDesignation();
-		}).distinct().forEach(System.out::println);
+		}).peek(s -> System.out.println("Next employee designation in the pipeline is:" + s)).distinct()
+				.peek(s -> System.out.println("Next ditinct employee designation in the pipeline is:" + s))
+				.forEach(System.out::println);
 	}
 
 	public void printDistinctSalaries(List<Employee> employees) {
