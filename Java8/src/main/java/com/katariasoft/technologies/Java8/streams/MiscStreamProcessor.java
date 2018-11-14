@@ -1,12 +1,17 @@
 package com.katariasoft.technologies.Java8.streams;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import com.katariasoft.technologies.Java8.beans.Employee;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.consumer.EmployeesConsumer;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridicate.employee.EmployeeFilterWithPredicate;
+import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.supplier.OtpSupplierProvider;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.unaryoperator.EmployeeUnaryOperators;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
 
@@ -16,6 +21,7 @@ public class MiscStreamProcessor {
 	private EmployeeFilterWithPredicate employeeFilterWithPredicate = new EmployeeFilterWithPredicate();
 	private EmployeesConsumer employeesConsumer = new EmployeesConsumer();
 	private EmployeeListSorterUsingComparing employeeListSorterCmp = new EmployeeListSorterUsingComparing();
+	private OtpSupplierProvider otpSupplierProvider = new OtpSupplierProvider();
 
 	public static interface MiscStreamProcessorCases {
 		String PRINT_ALL_NAMES = "PRINT_ALL_NAMES";
@@ -32,6 +38,8 @@ public class MiscStreamProcessor {
 		String minMaxCountOfSortedByRelevanceEmployees = "minMaxCountOfSortedByRelevanceEmployees";
 		String anyMatchAllMatchNoneMatch = "anyMatchAllMatchNoneMatch";
 		String findFirstFindAny = "findFirstFindAny";
+		String streamOfElements = "streamOfElements";
+		String infiniteStream = "infiniteStream";
 
 	}
 
@@ -39,7 +47,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.findFirstFindAny;
+		String testCase = MiscStreamProcessorCases.infiniteStream;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -83,6 +91,12 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.findFirstFindAny:
 			processor.findFirstFindAny(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.streamOfElements:
+			processor.streamOfElements();
+			break;
+		case MiscStreamProcessorCases.infiniteStream:
+			processor.infiniteStream();
 			break;
 		default:
 			break;
@@ -221,6 +235,34 @@ public class MiscStreamProcessor {
 				.peek(e -> System.out
 						.println("Next employee eligible after filteration in the pipeline " + "is :" + e.getName()))
 				.findFirst().ifPresent(System.out::println);
+
+	}
+
+	public void streamOfElements() {
+		Stream.of("vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka").limit(4).skip(1).filter(s -> s.length() > 6)
+				.sorted(Comparator.reverseOrder()).forEach(System.out::println);
+	}
+
+	public void infiniteStream() {
+		Stream<Integer> infiniteIntegers = Stream.iterate(1, i -> i + 1);
+		infiniteIntegers.limit(100).skip(10).filter(i -> i % 2 == 0).forEach(System.out::println);
+
+		Stream<String> infiniteStrings = Stream.iterate("a", s -> s.concat(1 + ""));
+		infiniteStrings.limit(20).skip(10).forEach(System.out::println);
+
+		Stream<String> infiniteRandomNumbers = Stream.generate(otpSupplierProvider.getEightDigitOtpProvider());
+		infiniteRandomNumbers.peek(s -> System.out.println("Next Random number is : " + s))
+				.filter(s -> Integer.parseInt(s) % 2 == 0)
+				.peek(s -> System.out.println("Next Even Random number is : " + s)).forEach(s -> {
+					try {
+						Thread.sleep(1000);
+						System.out.println(s);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				});
 
 	}
 
