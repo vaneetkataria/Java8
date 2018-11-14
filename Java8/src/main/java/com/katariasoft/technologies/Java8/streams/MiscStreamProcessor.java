@@ -31,6 +31,7 @@ public class MiscStreamProcessor {
 		String sendSmsEmailToEmployeesSkipFirstTwo = "sendSmsEmailToEmployeesSkipFirstTwo";
 		String minMaxCountOfSortedByRelevanceEmployees = "minMaxCountOfSortedByRelevanceEmployees";
 		String anyMatchAllMatchNoneMatch = "anyMatchAllMatchNoneMatch";
+		String findFirstFindAny = "findFirstFindAny";
 
 	}
 
@@ -38,7 +39,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.anyMatchAllMatchNoneMatch;
+		String testCase = MiscStreamProcessorCases.findFirstFindAny;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -79,6 +80,9 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.anyMatchAllMatchNoneMatch:
 			processor.anyMatchAllMatchNoneMatch(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.findFirstFindAny:
+			processor.findFirstFindAny(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -207,6 +211,16 @@ public class MiscStreamProcessor {
 				// .anyMatch(e -> e.getAge() < 40));
 				// .allMatch(e -> e.getAge() < 28));
 				.noneMatch(e -> e.getAge() < 26));
+
+	}
+
+	public void findFirstFindAny(List<Employee> employees) {
+		Objects.requireNonNull(employees);
+		employees.stream().peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
+				.filter(e -> e.getAge() < 28)
+				.peek(e -> System.out
+						.println("Next employee eligible after filteration in the pipeline " + "is :" + e.getName()))
+				.findFirst().ifPresent(System.out::println);
 
 	}
 
