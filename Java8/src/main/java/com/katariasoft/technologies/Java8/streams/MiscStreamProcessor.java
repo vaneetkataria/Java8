@@ -29,6 +29,7 @@ public class MiscStreamProcessor {
 		String printDistinctDesignations = "printDistinctDesignations";
 		String printDistinctSalaries = "printDistintSalaries";
 		String printEmployeesSortedByRelevance = "printEmployeesSortedByRelevance";
+		String sendSmsEmailToEmployees = "sendSmsEmailToEmployees";
 
 	}
 
@@ -36,7 +37,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.printEmployeesSortedByRelevance;
+		String testCase = MiscStreamProcessorCases.printDistinctSalaries;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -68,6 +69,9 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.printEmployeesSortedByRelevance:
 			processor.printEmployeesSortedByRelevance(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.sendSmsEmailToEmployees:
+			processor.sendSmsEmailToEmployees(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -117,8 +121,11 @@ public class MiscStreamProcessor {
 
 	public void sendSmsToPromotionEligibleEmployees(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
-		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
-				.mapToLong(e -> e.getPhoneNumber()).forEach(employeesConsumer.getHolidayAnnouncementSender());
+		employees.stream().peek(e -> System.out.println("Next employee in the pipeline is:" + e.getName()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println(e.getName() + "is promotion eligible")).mapToLong(e -> e.getPhoneNumber())
+				.peek(p -> System.out.println("Going to send sms on " + p))
+				.forEach(employeesConsumer.getHolidayAnnouncementSender());
 	}
 
 	public void printDistinctDesignations(List<Employee> employees) {
@@ -131,13 +138,28 @@ public class MiscStreamProcessor {
 
 	public void printDistinctSalaries(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
-		employees.stream().mapToDouble(e -> e.getSalary()).distinct().forEach(System.out::println);
+		employees.stream().peek(e -> System.out.println("Next employee in the pipeline is:" + e.getName()))
+				.mapToDouble(e -> e.getSalary())
+				.peek(s -> System.out.println("Next employee salary in the pipeline is:" + s)).distinct()
+				.peek(s -> System.out.println("Next Distinct salry in the pipeline is:" + s))
+				.forEach(System.out::println);
 	}
 
 	public void printEmployeesSortedByRelevance(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
 		System.out.println("Employee List without sorting : " + employees);
-		employees.stream().sorted(employeeListSorterCmp.getByRelevance()).forEach(System.out::println);
+		employees.stream().peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println(e.getName() + " is Promotion eligible ."))
+				.sorted(employeeListSorterCmp.getByRelevance()).forEach(System.out::println);
+	}
+
+	public void sendSmsEmailToEmployees(List<Employee> employees) {
+		Objects.requireNonNull(employees);
+		employees.stream().peek(e -> System.out.println(e.getName()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println(e.getName() + " is Promotion eligible ."))
+				.forEach(e -> System.out.println("Sms email sent to " + e.getName()));
 	}
 
 }
