@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.katariasoft.technologies.Java8.beans.Employee;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.consumer.EmployeesConsumer;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.pridicate.employee.EmployeeFilterWithPredicate;
@@ -31,6 +29,7 @@ public class MiscStreamProcessor {
 		String printDistinctSalaries = "printDistintSalaries";
 		String printEmployeesSortedByRelevance = "printEmployeesSortedByRelevance";
 		String sendSmsEmailToEmployeesSkipFirstTwo = "sendSmsEmailToEmployeesSkipFirstTwo";
+		String minMaxCountOfSortedByRelevanceEmployees = "minMaxCountOfSortedByRelevanceEmployees";
 
 	}
 
@@ -38,7 +37,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.printEmployeesSortedByRelevance;
+		String testCase = MiscStreamProcessorCases.minMaxCountOfSortedByRelevanceEmployees;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -73,6 +72,9 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.sendSmsEmailToEmployeesSkipFirstTwo:
 			processor.sendSmsEmailToEmployees(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.minMaxCountOfSortedByRelevanceEmployees:
+			processor.minMaxCountOfSortedByRelevanceEmployees(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -174,6 +176,21 @@ public class MiscStreamProcessor {
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
 				.peek(e -> System.out.println(e.getName() + " is Promotion eligible ."))
 				.forEach(e -> System.out.println("Sms email sent to " + e.getName()));
+	}
+
+	public void minMaxCountOfSortedByRelevanceEmployees(List<Employee> employees) {
+		Objects.requireNonNull(employees);
+		long count = employees.stream().limit(3).skip(1)
+				.peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out
+						.println("Next employee eligible for promotion in the pipeline " + "is :" + e.getName()))
+				// .sorted(employeeListSorterCmp.getByRelevance()).forEach(System.out::println);
+				// .min(employeeListSorterCmp.getByRelevance()).ifPresent(System.out::println);
+				// .max(employeeListSorterCmp.getByRelevance()).ifPresent(System.out::println);
+				.count();
+		System.out.println("Num employees eligible for promotion is: " + count);
+
 	}
 
 }
