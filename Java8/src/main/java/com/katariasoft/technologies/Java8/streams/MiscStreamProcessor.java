@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.katariasoft.technologies.Java8.beans.Employee;
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.consumer.EmployeesConsumer;
@@ -29,7 +30,7 @@ public class MiscStreamProcessor {
 		String printDistinctDesignations = "printDistinctDesignations";
 		String printDistinctSalaries = "printDistintSalaries";
 		String printEmployeesSortedByRelevance = "printEmployeesSortedByRelevance";
-		String sendSmsEmailToEmployees = "sendSmsEmailToEmployees";
+		String sendSmsEmailToEmployeesSkipFirstTwo = "sendSmsEmailToEmployeesSkipFirstTwo";
 
 	}
 
@@ -37,7 +38,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION;
+		String testCase = MiscStreamProcessorCases.printEmployeesSortedByRelevance;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -70,7 +71,7 @@ public class MiscStreamProcessor {
 		case MiscStreamProcessorCases.printEmployeesSortedByRelevance:
 			processor.printEmployeesSortedByRelevance(EmployeeList.get());
 			break;
-		case MiscStreamProcessorCases.sendSmsEmailToEmployees:
+		case MiscStreamProcessorCases.sendSmsEmailToEmployeesSkipFirstTwo:
 			processor.sendSmsEmailToEmployees(EmployeeList.get());
 			break;
 		default:
@@ -156,15 +157,20 @@ public class MiscStreamProcessor {
 	public void printEmployeesSortedByRelevance(List<Employee> employees) {
 		Objects.requireNonNull(employees, "Employee List cannot be empty.");
 		System.out.println("Employee List without sorting : " + employees);
-		employees.stream().peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
+		Employee[] employeesArr = employees.stream()
+				.peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
 				.peek(e -> System.out.println(e.getName() + " is Promotion eligible ."))
-				.sorted(employeeListSorterCmp.getByRelevance()).forEach(System.out::println);
+				.sorted(employeeListSorterCmp.getByRelevance()).toArray(Employee[]::new);
+		Arrays.stream(employeesArr).forEach(System.out::println);
+
 	}
 
 	public void sendSmsEmailToEmployees(List<Employee> employees) {
 		Objects.requireNonNull(employees);
-		employees.stream().peek(e -> System.out.println(e.getName()))
+		employees.stream().limit(4)
+				.peek(e -> System.out.println("Next employee in the pipeline before max limit is: " + e.getName()))
+				.skip(2).peek(e -> System.out.println("Next employee in the pipeline after skip is " + e.getName()))
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
 				.peek(e -> System.out.println(e.getName() + " is Promotion eligible ."))
 				.forEach(e -> System.out.println("Sms email sent to " + e.getName()));
