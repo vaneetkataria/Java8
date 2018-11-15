@@ -16,6 +16,8 @@ public class EmployeeFilterWithPredicate {
 			&& e.getSalary() > 25000;
 	private Predicate<Employee> havingLocationAmbala = e -> Objects.nonNull(e) && Objects.nonNull(e.getLocation())
 			&& e.getLocation().equalsIgnoreCase("ambala");
+	private Predicate<Employee> havingLocationFaridabad = e -> Objects.nonNull(e) && Objects.nonNull(e.getLocation())
+			&& e.getLocation().equalsIgnoreCase("faridabad");
 	private Predicate<Employee> havingLocationUp = e -> Objects.nonNull(e) && Objects.nonNull(e.getLocation())
 			&& e.getLocation().equalsIgnoreCase("up");
 	private Predicate<Employee> withSexMale = e -> Objects.nonNull(e) && Objects.nonNull(e.getSex())
@@ -33,8 +35,8 @@ public class EmployeeFilterWithPredicate {
 	private Predicate<Employee> pinkSlipEmployee = havingDesignationTechLead.and(havingSalaryGreterThan25000)
 			.and(withSexMale).and(havingLocationAmbala);
 	// promote male working in up having status married.
-	private Predicate<Employee> promotionEligible = withSexMale.and(havingMaritalStatusMarried.negate())
-			.and(havingLocationUp);
+	private Predicate<Employee> promotionEligible = (havingMaritalStatusMarried.negate())
+			.and(havingLocationUp.or(havingLocationAmbala).or(havingLocationFaridabad));
 	// on site eligible
 	private Predicate<Employee> onSiteEligible = (withSexMale.and(havingMaritalStatusMarried)).or(havingLocationUp)
 			.or(havingMaritalStatusMarried.and(withSexMale.negate()));

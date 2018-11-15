@@ -1,10 +1,11 @@
 package com.katariasoft.technologies.Java8.streams;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +41,7 @@ public class MiscStreamProcessor {
 		String findFirstFindAny = "findFirstFindAny";
 		String streamOfElements = "streamOfElements";
 		String infiniteStream = "infiniteStream";
+		String collectors = "collectors";
 
 	}
 
@@ -47,7 +49,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.infiniteStream;
+		String testCase = MiscStreamProcessorCases.collectors;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
@@ -97,6 +99,9 @@ public class MiscStreamProcessor {
 			break;
 		case MiscStreamProcessorCases.infiniteStream:
 			processor.infiniteStream();
+			break;
+		case MiscStreamProcessorCases.collectors:
+			processor.collectors(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -263,6 +268,58 @@ public class MiscStreamProcessor {
 					}
 
 				});
+
+	}
+
+	public void collectors(List<Employee> employees) {
+		Objects.requireNonNull(employees);
+
+		// ###
+		// collect in a set.
+		System.out.println("###Distict Employee names eligible for promition.");
+		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.map(Employee::getName).collect(Collectors.toSet()).forEach(System.out::println);
+		System.out.println("\n");
+		// ###
+		// collect in a set.
+		System.out.println("###Distict Employee salaries eligible for promition.");
+		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.map(Employee::getSalary).collect(Collectors.toSet()).forEach(System.out::println);
+		System.out.println("\n");
+		// ###
+		// collect in a set.
+		System.out.println("###Distict Employee ages eligible for promition.");
+		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.map(Employee::getAge).collect(Collectors.toSet()).forEach(System.out::println);
+		System.out.println("\n");
+		// ###
+		// collect in a set.
+		System.out.println("###summaryStatistics of Employee salaries eligible for promition.");
+		System.out
+				.println(employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.mapToDouble(Employee::getSalary).summaryStatistics());
+		System.out.println("\n");
+		// ###
+		// concatenate strings
+		System.out.println("###All employee locations eligible for promotions");
+		System.out
+				.println(employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.map(Employee::getLocation).collect(Collectors.joining("|")));
+		// ###
+		// collect in a map group by location
+		System.out.println("###All employee eligible for promotions group by location");
+		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.collect(Collectors.groupingBy(Employee::getLocation))
+				.forEach((k, l) -> System.out.println(k + "=" + l));
+		System.out.println("\n");
+		// ###
+		// collect in a map group by location then salary
+		System.out.println("###All employee eligible for promotions group by location then salary then sex");
+		System.out
+				.println(employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.collect(Collectors.groupingBy(Employee::getLocation,
+								Collectors.groupingBy(Employee::getSalary, Collectors.groupingBy(Employee::getSex)))));
+		System.out.println("\n");
 
 	}
 

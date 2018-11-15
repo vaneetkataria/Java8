@@ -41,16 +41,16 @@ public class EmployeeList {
 
 	private static List<Employee> fetchEmployees() {
 		List<Employee> employees = new ArrayList<>();
-		employees.add(new Employee("vaneet", (byte) 28, "TechLead", 75000, "Ambala", "1", "Married", "Male",
+		employees.add(new Employee("vaneet", (byte) 28, "TechLead", 75000, "ambala", "1", "unMarried", "Male",
 				8742910244L, new Employee.Address(6, 1, "1", "1", "1")));
 		employees.add(new Employee("Pratapi", (byte) 28, "TechLead", 75000, "up", "1", "unMarried", "Male", 8742910241L,
 				new Employee.Address(2, 2, "2", "2", "2")));
-		employees.add(new Employee("Deepak", (byte) 27, "TechLead", 75000, "up", "1", "unMarried", "Male", 8742910242L,
+		employees.add(new Employee("Deepak", (byte) 27, "TechLead", 75000, "up", "1", "unMarried", "feMale", 8742910242L,
 				new Employee.Address(3, 3, "3", "3", "3")));
-		employees.add(new Employee("DheeraD", (byte) 26, "TechLead", 75000, "up", "1", "unMarried", "Male", 8742910243L,
+		employees.add(new Employee("DheeraD", (byte) 26, "TechLead", 65000, "up", "1", "unMarried", "feMale", 8742910243L,
 				new Employee.Address(4, 4, "4", "4", "4")));
-		employees.add(new Employee("vaneet", (byte) 28, "qa", 75000, "faridabad", "1", "Married", "female",
-				8742910244L, new Employee.Address(6, 1, "1", "1", "1")));
+		employees.add(new Employee("vaneet", (byte) 28, "qa", 65000, "up", "1", "unMarried", "Male", 8742910244L,
+				new Employee.Address(6, 1, "1", "1", "1")));
 		return employees;
 	}
 
