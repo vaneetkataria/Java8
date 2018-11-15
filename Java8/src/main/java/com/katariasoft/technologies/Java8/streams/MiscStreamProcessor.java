@@ -3,9 +3,11 @@ package com.katariasoft.technologies.Java8.streams;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -320,6 +322,24 @@ public class MiscStreamProcessor {
 						.collect(Collectors.groupingBy(Employee::getLocation,
 								Collectors.groupingBy(Employee::getSalary, Collectors.groupingBy(Employee::getSex)))));
 		System.out.println("\n");
+		// ###
+		// collect in a tree map group by location then salary
+		System.out
+				.println("###All employee eligible for promotions group by location then salary then sex in tree map");
+		System.out.println(employees.stream()
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.collect(Collectors.groupingBy(Employee::getLocation, TreeMap::new, Collectors
+						.groupingBy(Employee::getSalary, TreeMap::new, Collectors.groupingBy(Employee::getSex)))));
+		// ###
+		// collect in a linked hash map group by location then salary
+		System.out.println(
+				"###All employee eligible for promotions group by location then salary then sex in linked hashmap ");
+		System.out
+				.println(
+						employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+								.collect(Collectors.groupingBy(Employee::getLocation, LinkedHashMap::new,
+										Collectors.groupingBy(Employee::getSalary, LinkedHashMap::new,
+												Collectors.groupingBy(Employee::getSex)))));
 
 	}
 
