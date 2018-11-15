@@ -1,6 +1,5 @@
 package com.katariasoft.technologies.Java8.streams;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -8,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,13 +27,13 @@ public class MiscStreamProcessor {
 	private OtpSupplierProvider otpSupplierProvider = new OtpSupplierProvider();
 
 	public static interface MiscStreamProcessorCases {
-		String PRINT_ALL_NAMES = "PRINT_ALL_NAMES";
-		String SAY_HELLO_TO_ALL = "SAY_HELLO_TO_ALL";
-		String INCRIMENT_EMPLOYEE_SALARY = "INCRIMENT_EMPLOYEE_SALARY";
-		String INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION = "INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION";
-		String PRINT_ALL_DESIGNATION_BANDS = "PRINT_ALL_DESIGNATION_BANDS";
-		String PRINT_ALL_SALARIES = "PRINT_ALL_SALARIES";
-		String SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES = "SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES";
+		String printAll = "printAll";
+		String sayHelloToAll = "sayHelloToAll";
+		String incrementEmployeeSalary = "incrementEmployeeSalary";
+		String incrementEmployeeSalaryWithParticularDesignationTechLead = "incrementEmployeeSalaryWithParticularDesignationTechLead";
+		String printAllDesignationBands = "printAllDesignationBands";
+		String printAllSalaries = "printAllSalaries";
+		String sendSmsToPromotionEligibleEmployees = "sendSmsToPromotionEligibleEmployees";
 		String printDistinctDesignations = "printDistinctDesignations";
 		String printDistinctSalaries = "printDistintSalaries";
 		String printEmployeesSortedByRelevance = "printEmployeesSortedByRelevance";
@@ -56,25 +54,25 @@ public class MiscStreamProcessor {
 		String testCase = MiscStreamProcessorCases.collectors;
 		// Execute test case.
 		switch (testCase) {
-		case MiscStreamProcessorCases.PRINT_ALL_NAMES:
+		case MiscStreamProcessorCases.printAll:
 			processor.printAll(teamMembers);
 			break;
-		case MiscStreamProcessorCases.SAY_HELLO_TO_ALL:
+		case MiscStreamProcessorCases.sayHelloToAll:
 			processor.sayHelloToAll(teamMembers);
 			break;
-		case MiscStreamProcessorCases.INCRIMENT_EMPLOYEE_SALARY:
+		case MiscStreamProcessorCases.incrementEmployeeSalary:
 			processor.incrementEmployeeSalary(EmployeeList.get());
 			break;
-		case MiscStreamProcessorCases.INCRIMENT_EMPLOYEE_SALARY_FOR_PARTICULAR_DESIGNATION:
+		case MiscStreamProcessorCases.incrementEmployeeSalaryWithParticularDesignationTechLead:
 			processor.incrementEmployeeSalaryWithParticularDesignationTechLead(EmployeeList.get());
 			break;
-		case MiscStreamProcessorCases.PRINT_ALL_DESIGNATION_BANDS:
+		case MiscStreamProcessorCases.printAllDesignationBands:
 			processor.printAllDesignationBands(EmployeeList.get());
 			break;
-		case MiscStreamProcessorCases.PRINT_ALL_SALARIES:
+		case MiscStreamProcessorCases.printAllSalaries:
 			processor.printAllSalaries(EmployeeList.get());
 			break;
-		case MiscStreamProcessorCases.SEND_SMS_TO_PROMOTION_ELIGIBLE_EMPLOYEES:
+		case MiscStreamProcessorCases.sendSmsToPromotionEligibleEmployees:
 			processor.sendSmsToPromotionEligibleEmployees(EmployeeList.get());
 			break;
 		case MiscStreamProcessorCases.printDistinctDesignations:
@@ -334,10 +332,11 @@ public class MiscStreamProcessor {
 		// collect in a tree map group by location then salary
 		System.out
 				.println("###All employee eligible for promotions group by location then salary then sex in tree map");
-		System.out.println(employees.stream()
-				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
-				.collect(Collectors.groupingBy(Employee::getLocation, TreeMap::new, Collectors
-						.groupingBy(Employee::getSalary, TreeMap::new, Collectors.groupingBy(Employee::getSex)))));
+		System.out
+				.println(employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.collect(Collectors.groupingBy(Employee::getLocation, TreeMap::new,
+								Collectors.groupingBy(Employee::getSalary, TreeMap::new,
+										Collectors.groupingBy(Employee::getSex, TreeMap::new, Collectors.toList())))));
 		// ###
 		// collect in a linked hash map group by location then salary
 		System.out.println(
@@ -379,7 +378,6 @@ public class MiscStreamProcessor {
 		System.out.println("###location to comma separated names map.");
 		System.out.println(employees.stream().collect(Collectors.toMap(Employee::getLocation, Employee::getName,
 				(n1, n2) -> String.join(",", n1, n2), TreeMap::new)));
-
 	}
 
 }
