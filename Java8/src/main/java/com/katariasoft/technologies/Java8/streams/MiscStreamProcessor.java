@@ -341,6 +341,11 @@ public class MiscStreamProcessor {
 										Collectors.groupingBy(Employee::getSalary, LinkedHashMap::new,
 												Collectors.groupingBy(Employee::getSex)))));
 
+		System.out.println("###All employee group by eligible for promotions ");
+		System.out.println(employees.stream().collect(
+				Collectors.partitioningBy(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())));
+		System.out.println("\n");
+
 	}
 
 }
