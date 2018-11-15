@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
@@ -278,6 +280,12 @@ public class MiscStreamProcessor {
 
 		// ###
 		// collect in a set.
+		System.out.println("###Distict Employee names eligible for promition in linked list.");
+		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.map(Employee::getName).collect(Collectors.toCollection(LinkedList::new)).forEach(System.out::println);
+		System.out.println("\n");
+		// ###
+		// collect in a set.
 		System.out.println("###Distict Employee names eligible for promition.");
 		employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
 				.map(Employee::getName).collect(Collectors.toSet()).forEach(System.out::println);
@@ -345,6 +353,32 @@ public class MiscStreamProcessor {
 		System.out.println(employees.stream().collect(
 				Collectors.partitioningBy(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())));
 		System.out.println("\n");
+
+		System.out.println(
+				"###All employee group by eligible for promotions then by location then by salary then by sex   ");
+		System.out.println(employees.stream()
+				.collect(Collectors.partitioningBy(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate(),
+						Collectors.groupingBy(Employee::getLocation, TreeMap::new, Collectors.groupingBy(
+								Employee::getSalary, TreeMap::new, Collectors.groupingBy(Employee::getSex))))));
+		System.out.println("\n");
+
+		System.out.println("###Employee Name , salary map ");
+		System.out.println(employees.stream().collect(Collectors.toMap(Employee::getName, Employee::getSalary)));
+		System.out.println("\n");
+
+		System.out.println("###Salary to names comma separated map.");
+		Map<Double, String> salaryNamesCommaSeparatedMap = employees.stream().collect(Collectors
+				.toMap(Employee::getSalary, Employee::getName, (n1, n2) -> String.join(",", n1, n2), TreeMap::new));
+		System.out.println(salaryNamesCommaSeparatedMap);
+
+		System.out.println("###Salary to list of names map.");
+		System.out.println(employees.stream()
+				.collect(Collectors.groupingBy(Employee::getSalary, TreeMap::new, Collectors.toList())));
+		System.out.println("/n");
+
+		System.out.println("###location to comma separated names map.");
+		System.out.println(employees.stream().collect(Collectors.toMap(Employee::getLocation, Employee::getName,
+				(n1, n2) -> String.join(",", n1, n2), TreeMap::new)));
 
 	}
 

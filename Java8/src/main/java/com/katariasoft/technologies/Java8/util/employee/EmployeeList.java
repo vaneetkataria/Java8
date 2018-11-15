@@ -49,7 +49,7 @@ public class EmployeeList {
 				new Employee.Address(3, 3, "3", "3", "3")));
 		employees.add(new Employee("DheeraD", (byte) 26, "TechLead", 75000, "up", "1", "unMarried", "female", 8742910243L,
 				new Employee.Address(4, 4, "4", "4", "4")));
-		employees.add(new Employee("vaneet", (byte) 28, "qa", 75000, "up", "1", "Married", "male", 8742910244L,
+		employees.add(new Employee("vaneeta", (byte) 28, "qa", 87000, "up", "1", "Married", "male", 8742910244L,
 				new Employee.Address(6, 1, "1", "1", "1")));
 		return employees;
 	}
