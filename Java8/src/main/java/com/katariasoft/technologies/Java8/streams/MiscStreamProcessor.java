@@ -43,6 +43,9 @@ public class MiscStreamProcessor {
 		String findFirstFindAny = "findFirstFindAny";
 		String streamOfElements = "streamOfElements";
 		String infiniteStream = "infiniteStream";
+		String reducers = "reducers";
+		String reducersWithIdentitySupplied = "reducersWithIdentitySupplied";
+		String mapReducers = "mapReducers";
 		String collectors = "collectors";
 
 	}
@@ -51,7 +54,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.collectors;
+		String testCase = MiscStreamProcessorCases.mapReducers;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.printAll:
@@ -102,8 +105,17 @@ public class MiscStreamProcessor {
 		case MiscStreamProcessorCases.infiniteStream:
 			processor.infiniteStream();
 			break;
+		case MiscStreamProcessorCases.reducers:
+			processor.reducers(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.reducersWithIdentitySupplied:
+			processor.reducersWithIdentitySupplied(EmployeeList.get());
+			break;
 		case MiscStreamProcessorCases.collectors:
 			processor.collectors(EmployeeList.get());
+			break;
+		case MiscStreamProcessorCases.mapReducers:
+			processor.mapReducers(EmployeeList.get());
 			break;
 		default:
 			break;
@@ -270,6 +282,113 @@ public class MiscStreamProcessor {
 					}
 
 				});
+
+	}
+
+	public void reducers(List<Employee> employees) {
+		System.out.println("###Sum of employee salaries by reduce is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee salary is :" + e.getSalary()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce((s1, s2) -> s1 + s2).orElse(0.0d));
+		System.out.println("\n");
+
+		System.out.println("###Minimum of employee salaries by reduce is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce((d1, d2) -> (d1 <= d2) ? d1 : d2).orElse(0.0d));
+		System.out.println("\n");
+
+		System.out.println("###Maximum of employee salaries by reduce is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce((d1, d2) -> (d1 >= d2) ? d1 : d2).orElse(0.0d));
+		System.out.println("\n");
+
+		// Here average calculated will be wrong
+		// 1. Average function defined here is not associative .
+		// 2. (1+2)+3 = 1+(2+3) = (1+3)+2 = 1+2+3 = 6
+		// 3. (min(1, 2), 3) = (min(1, (2, 3)) = (min(1, 3) ,2)) hence associative .
+		// 4. (max(1, 2), 3) = (max(1, (2, 3)) = (max(1, 3) ,2)) hence associative .
+		// 5. avg(avg(1, 2), 3) != avg(avg(2,3) ,1) Hence will not work.
+		System.out.println("###Average of employee salaries by reduce is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce((d1, d2) -> (d1 + d2) / 2));
+		System.out.println("\n");
+
+		System.out
+				.println(employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.mapToDouble(Employee::getSalary).summaryStatistics());
+
+	}
+
+	public void reducersWithIdentitySupplied(List<Employee> employees) {
+		System.out.println("\n");
+		System.out.println("##### With Identity ######");
+		System.out.println("\n");
+
+		System.out.println("###Sum of employee salaries by reduce with identity 0  is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee salary is :" + e.getSalary()))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce(0, (s1, s2) -> s1 + s2));
+		System.out.println("\n");
+
+		System.out.println("###Minimum of employee salaries by reduce with identity Double.MAX_VALUE  is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce(Double.MAX_VALUE, (d1, d2) -> (d1 <= d2) ? d1 : d2));
+		System.out.println("\n");
+
+		System.out.println("###Maximum of employee salaries by reduce with identity Double.MIN_VALUE is : ");
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee salary eligible for promition is :" + e))
+				.mapToDouble(Employee::getSalary).reduce(Double.MIN_VALUE, (d1, d2) -> (d1 >= d2) ? d1 : d2));
+		System.out.println("\n");
+
+		System.out
+				.println(employees.stream().filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.mapToDouble(Employee::getSalary).summaryStatistics());
+	}
+
+	public void mapReducers(List<Employee> employees) {
+		System.out.println("\n");
+		System.out.println("##### Map Reducers ######");
+		System.out.println("\n");
+
+		System.out.println("Sum of salaries of employees with map reducers is :"
+				+ employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+						.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.peek(e -> System.out.println("Next employee eligible for promotion is :" + e))
+						.reduce(0.0d, (sal, e) -> sal + e.getSalary(), (sal1, sal2) -> sal1 + sal2));
+		System.out.println("\n");
+
+		System.out.println("Min of salaries of employees with map reducers is :"
+				+ employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+						.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.peek(e -> System.out.println("Next employee eligible for promotion is :" + e))
+						.reduce(Double.MAX_VALUE, (sal, e) -> sal <= e.getSalary() ? sal : e.getSalary(),
+								(sal1, sal2) -> sal1 <= sal2 ? sal1 : sal2));
+		System.out.println("\n");
+
+		System.out.println("Max of salaries of employees with map reducers is :"
+				+ employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+						.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+						.peek(e -> System.out.println("Next employee eligible for promotion is :" + e))
+						.reduce(Double.MIN_VALUE, (sal, e) -> sal >= e.getSalary() ? sal : e.getSalary(),
+								(sal1, sal2) -> sal1 >= sal2 ? sal1 : sal2));
+		System.out.println("\n");
+
+		System.out.println(employees.stream().peek(e -> System.out.println("Next employee is :" + e))
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
+				.peek(e -> System.out.println("Next employee eligible for promotion is :" + e))
+				.mapToDouble(Employee::getSalary).summaryStatistics());
 
 	}
 

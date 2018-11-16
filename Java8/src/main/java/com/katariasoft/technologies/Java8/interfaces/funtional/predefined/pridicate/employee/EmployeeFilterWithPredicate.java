@@ -35,8 +35,7 @@ public class EmployeeFilterWithPredicate {
 	private Predicate<Employee> pinkSlipEmployee = havingDesignationTechLead.and(havingSalaryGreterThan25000)
 			.and(withSexMale).and(havingLocationAmbala);
 	// promote male working in up having status married.
-	private Predicate<Employee> promotionEligible = (havingMaritalStatusMarried.negate())
-			.and(havingLocationUp.or(havingLocationAmbala).or(havingLocationFaridabad));
+	private Predicate<Employee> promotionEligible = (havingMaritalStatusMarried.negate()).and(havingLocationUp);
 	// on site eligible
 	private Predicate<Employee> onSiteEligible = (withSexMale.and(havingMaritalStatusMarried)).or(havingLocationUp)
 			.or(havingMaritalStatusMarried.and(withSexMale.negate()));
