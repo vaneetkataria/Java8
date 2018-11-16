@@ -1,5 +1,6 @@
 package com.katariasoft.technologies.Java8.streams;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -54,7 +55,7 @@ public class MiscStreamProcessor {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
 		MiscStreamProcessor processor = new MiscStreamProcessor();
-		String testCase = MiscStreamProcessorCases.mapReducers;
+		String testCase = MiscStreamProcessorCases.minMaxCountOfSortedByRelevanceEmployees;
 		// Execute test case.
 		switch (testCase) {
 		case MiscStreamProcessorCases.printAll:
@@ -220,8 +221,9 @@ public class MiscStreamProcessor {
 	}
 
 	public void minMaxCountOfSortedByRelevanceEmployees(List<Employee> employees) {
+		employees = new ArrayList<>();
 		Objects.requireNonNull(employees);
-		long count = employees.stream().limit(3).skip(1)
+		long count = employees.stream()/* .limit(3).skip(1) */
 				.peek(e -> System.out.println("Next employee in the pipeline " + "is :" + e.getName()))
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
 				.peek(e -> System.out
@@ -286,6 +288,7 @@ public class MiscStreamProcessor {
 	}
 
 	public void reducers(List<Employee> employees) {
+
 		System.out.println("###Sum of employee salaries by reduce is : ");
 		System.out.println(employees.stream().peek(e -> System.out.println("Next employee salary is :" + e.getSalary()))
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
@@ -327,6 +330,7 @@ public class MiscStreamProcessor {
 	}
 
 	public void reducersWithIdentitySupplied(List<Employee> employees) {
+
 		System.out.println("\n");
 		System.out.println("##### With Identity ######");
 		System.out.println("\n");

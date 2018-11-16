@@ -36,6 +36,8 @@ public class EmployeeFilterWithPredicate {
 			.and(withSexMale).and(havingLocationAmbala);
 	// promote male working in up having status married.
 	private Predicate<Employee> promotionEligible = (havingMaritalStatusMarried.negate()).and(havingLocationUp);
+	// private Predicate<Employee> promotionEligible =
+	// (havingMaritalStatusMarried.negate()).and(e -> false);
 	// on site eligible
 	private Predicate<Employee> onSiteEligible = (withSexMale.and(havingMaritalStatusMarried)).or(havingLocationUp)
 			.or(havingMaritalStatusMarried.and(withSexMale.negate()));
