@@ -19,20 +19,7 @@ import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.suppli
 import com.katariasoft.technologies.Java8.interfaces.funtional.predefined.unaryoperator.EmployeeUnaryOperators;
 import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
 
-//For correct stream execution Associative , Non Interfering , state less , no side effects 
-//lambdas are must .
-
-//1. Analyze various stream methods with parallel and sequential streams . 
-//2. Create streams with multiple time parallel and sequential call . 
-//3. Benchmark primitive arrays for loop with sequential and parallel streams with this array .
-//4. Benchmark List<Employee> to print all employee names with for loop , 
-//with sequential and parallel streams .
-//5. Check how ConcurrentHashMap gives better performance in collectors instead of HashMap and 
-//check if we can use any concurrent map which ensures order or not .
-//6. Check no of threads in system common fork join pool . Increase number of threads in common pool .
-//7. Use custom Fork Join pool .
-
-public class ParallelStreamProcessing {
+public class MiscStreamProcessor {
 
 	private EmployeeUnaryOperators employeeUnaryOperators = new EmployeeUnaryOperators();
 	private EmployeeFilterWithPredicate employeeFilterWithPredicate = new EmployeeFilterWithPredicate();
@@ -67,7 +54,7 @@ public class ParallelStreamProcessing {
 	public static void main(String args[]) {
 		List<String> teamMembers = Arrays.asList("Vaneet", "Pratapi", "Deepak", "Dheeraj", "Franka");
 		// List<String> teamMembers = new ArrayList<>();
-		SequnetialStreamProcessing processor = new SequnetialStreamProcessing();
+		MiscStreamProcessor processor = new MiscStreamProcessor();
 		String testCase = MiscStreamProcessorCases.minMaxCountOfSortedByRelevanceEmployees;
 		// Execute test case.
 		switch (testCase) {
