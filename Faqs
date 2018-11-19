@@ -197,16 +197,26 @@ Ans : 1. Lambda expression is not the direct replacement of anonymous inner clas
       7. AIM are compiled as separate classes but lambdas are not they are invoke dynamic on compiler level . 
       8. In AIM objects are created on heap but lambdas are created in method area memory only . 
       
-Q20:  what is need of default methods how to declare AND USE , there inhenritance , diamond problem solution , 
-      must override rule , 
-      calling left 
-      right method directly . Difference between interface with default methods and abstract class . 
-      Need of static method and
-      their use ? inheriting static method with all overriding thing like modifier scoping  ? 
-      defining main method in interface ? 
-      running an interface ? 
+ Q20. What should be the characterstics of lambda expressions passed to streams for correct reduce opearation
+      in sequnetial and parallel execution ? 
+ Ans :1. In Reduction calls Functions passed must be Associtive means f(f(A,B),C)= f(A,f(B,C)) = f(f(A,C),B)
+         Identity element passed in reduction call must be like f(I,T) = T . for example for 
+         1. finding minimum pass (Integer.Max , (i1,i2) -> i1<=i2 ? i1 :i2);
+         2. finding max pass (Integer.Min , (i1,i2) -> i1<=i2 ? i1 :i2);
+ Q21. What should be the characterstics of lambda expressions passed to streams for correct opearation
+      in sequnetial and parallel execution ?         
+ Ans: 1. Non interfering for stream source : Means Lambda expression impl must not interfere with stream source otherwise
+      unexpected behaviour and exceptions can occur in paraller streams .  
+      2.Statelessness : Means Lambda expression impl must not be stateful .If so can cause problem in paralel executions 
+      and even if we preserve state by suncronised collections then it will not be a correct parallelism . 
+      3. No side effects : Means lamda must not mutate an object in a way such that in other thread execution of same lambda 
+         is dependent on the state of this object but if it is modified in other thread then it can cause problems . Hence 
+         no side effects should  be there . 
+      4. For most of the mutable reduction operations just use collect api and for sum , min , max , average use IntStream , 
+         LongStream and DoubleStream methods . 
       
-
+ 
+      
 
 
 
