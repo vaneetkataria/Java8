@@ -11,8 +11,7 @@ package com.katariasoft.technologies.Java8.streams;
 //3. Check how ConcurrentHashMap gives better performance in collectors instead of HashMap and 
 //   check if we can use any concurrent map which ensures order or not .
 //4. Check no of threads in system common fork join pool . Increase number of threads in common pool .
-//5. Use custom Fork Join pool ,  
-//        
+//5. Use custom Fork Join pool .  
 
 public class ParallelStreams {
 
