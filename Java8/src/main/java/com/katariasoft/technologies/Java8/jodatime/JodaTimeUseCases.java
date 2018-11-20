@@ -1,17 +1,24 @@
 package com.katariasoft.technologies.Java8.jodatime;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.Period;
+import java.time.Year;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
 import java.util.function.Consumer;
 
 public class JodaTimeUseCases {
 
 	private static Consumer<String> messageConsumer = System.out::println;
-	// ##Examples which use non static methods .
 	private static LocalDate myBirthDay = LocalDate.of(1990, Month.DECEMBER, 30);
 	private static LocalDate myMothersBirthDay = LocalDate.of(1990, Month.DECEMBER, 30);
 	private static LocalDate newYear1991 = LocalDate.of(1991, Month.JANUARY, 01);
@@ -19,6 +26,8 @@ public class JodaTimeUseCases {
 	private static LocalDate mySisterBirthDay = LocalDate.of(1993, Month.SEPTEMBER, 19);
 	private static LocalTime myBirthTime = LocalTime.of(8, 57, 30, 1);
 	private static LocalTime myWifeBirthTime = LocalTime.of(9, 33, 0, 516);
+	private static LocalDateTime myBirthDateAndTime = LocalDateTime.of(myBirthDay, myBirthTime);
+	private static LocalDateTime mySisterBirthDateAndTime = LocalDateTime.of(mySisterBirthDay, myBirthTime);
 
 	private static final String localDate = "localDate";
 	private static final String localTime = "localTime";
@@ -206,6 +215,50 @@ public class JodaTimeUseCases {
 	}
 
 	private static void localDateTimeUseCases() {
+		sout("Max Local DateTime is" + LocalDateTime.MAX);
+		sout("Min Local DateTime is" + LocalDateTime.MIN);
+		sout("Now Date Time is " + LocalDateTime.now());
+		sout("Available zones are " + ZoneId.getAvailableZoneIds());
+		sout("Date Time in +0630 zone is  " + LocalDateTime.now(ZoneId.of("+0630")));
+		sout("My Birth date and time is : " + LocalDateTime.of(1990, 12, 30, 8, 57, 30, 1));
+		sout("My Birth date and time with LocalDate and LocalTime objects is : "
+				+ LocalDateTime.of(myBirthDay, myBirthTime));
+		sout("My Birth Date and Time parsed from 1990-12-30T08:57:30.000000001 is: "
+				+ LocalDateTime.parse("1990-12-30T08:57:30.000000001"));
+		sout("My Birth Date and Time parsed from 1990-12-30T08:57:30.000000001 is: " + LocalDateTime
+				.parse("1990/12/30T08:57:30.001", DateTimeFormatter.ofPattern("uuuu/MM/dd'T'HH:mm:ss.SSS")));
+		sout("My Birth Date and Time in zone +0630 is :" + myBirthDateAndTime.atZone(ZoneId.of("+0630")));
+		sout("My Comparison with my sister's birthDate and Time is :"
+				+ myBirthDateAndTime.compareTo(mySisterBirthDateAndTime));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ofPattern("E,d-MM-uu'T'HH:mm:ss.SSS")));
+		sout("Date Time Two months before my birth is : " + myBirthDateAndTime.minus(Period.ofMonths(11)));
+		sout("Date Time Two Hours 3 min and 4 seconds before my birth is : " + myBirthDateAndTime
+				.minus(Duration.ofHours(2)).minus(Duration.ofMinutes(3)).minus(Duration.ofSeconds(4)));
+		sout("Date Time after 2 hours , 3 minutes and 3 seconds after my birth day is " + myBirthDateAndTime
+				.plus(Duration.ofHours(2).plus(Duration.ofMinutes(3)).plus(Duration.ofSeconds(3)).plusNanos(4)));
+
+		sout("Date Time after 10 days , 2 hours , 3 minutes , 3 seconds and 4 nanno seconds after my birth is "
+				+ myBirthDateAndTime.plus(Period.ofDays(10)).plus(Duration.ofHours(2))
+						.plus(Duration.ofMinutes(3).plus(Duration.ofSeconds(3)).plus(Duration.ofNanos(4))));
+
+		sout("My Birthday truncated to day is" + myBirthDateAndTime.truncatedTo(ChronoUnit.DAYS));
+		sout("My Birthday truncated to Hour is" + myBirthDateAndTime.truncatedTo(ChronoUnit.HOURS));
+		sout("My Birthday truncated to Minute is" + myBirthDateAndTime.truncatedTo(ChronoUnit.MINUTES));
+		sout("My Birthday truncated to seconds is" + myBirthDateAndTime.truncatedTo(ChronoUnit.SECONDS));
+		sout("My Birthday truncated to micros is" + myBirthDateAndTime.truncatedTo(ChronoUnit.MICROS));
+		sout("My Birthday truncated to nano is" + myBirthDateAndTime.truncatedTo(ChronoUnit.NANOS));
+
+		sout("Years between me and my sister birth are:"
+				+ myBirthDateAndTime.until(mySisterBirthDateAndTime, ChronoUnit.YEARS));
+		sout("Years between me and my sister birth are:"
+				+ ChronoUnit.YEARS.between(myBirthDateAndTime, mySisterBirthDateAndTime));
+		sout("Years between me and my sister birth are:"
+				+ myBirthDateAndTime.until(mySisterBirthDateAndTime, ChronoUnit.MONTHS));
+		sout("Years between me and my sister birth are:"
+				+ ChronoUnit.MONTHS.between(myBirthDateAndTime, mySisterBirthDateAndTime));
+
+		sout("Adjusting my birth date time with day of week as 6 "
+				+ myBirthDateAndTime.with(ChronoField.DAY_OF_WEEK, 1));
 
 	}
 
