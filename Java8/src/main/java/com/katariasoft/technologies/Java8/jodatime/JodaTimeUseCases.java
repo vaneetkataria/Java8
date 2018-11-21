@@ -7,14 +7,17 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class JodaTimeUseCases {
 
 	private static Consumer<String> messageConsumer = System.out::println;
+	private static Predicate<String> CancellationAllowedChecker = cancellationAllowedCheckerImpl();
 	private static LocalDate myBirthDay = LocalDate.of(1990, Month.DECEMBER, 30);
 	private static LocalDate myMothersBirthDay = LocalDate.of(1990, Month.DECEMBER, 30);
 	private static LocalDate newYear1991 = LocalDate.of(1991, Month.JANUARY, 01);
@@ -24,13 +27,16 @@ public class JodaTimeUseCases {
 	private static LocalTime myWifeBirthTime = LocalTime.of(9, 33, 0, 516);
 	private static LocalDateTime myBirthDateAndTime = LocalDateTime.of(myBirthDay, myBirthTime);
 	private static LocalDateTime mySisterBirthDateAndTime = LocalDateTime.of(mySisterBirthDay, myBirthTime);
+	private static ZonedDateTime myBirthDateWithTimeZone = ZonedDateTime.of(myBirthDateAndTime, ZoneId.of("+05:30"));
+	private static ZonedDateTime mySisterDateWithTimeZone = ZonedDateTime.of(myBirthDateAndTime, ZoneId.of("+06:30"));
 
 	private static final String localDate = "localDate";
 	private static final String localTime = "localTime";
 	private static final String localDateTime = "localDateTime";
+	private static final String zonedDateTime = "zonedDateTime";
 
 	public static void main(String args[]) {
-		String testCase = localDateTime;
+		String testCase = zonedDateTime;
 		switch (testCase) {
 		case localDate:
 			localDateUseCases();
@@ -40,6 +46,9 @@ public class JodaTimeUseCases {
 			break;
 		case localDateTime:
 			localDateTimeUseCases();
+			break;
+		case zonedDateTime:
+			zonedDateTimeUseCases();
 			break;
 		default:
 			break;
@@ -69,6 +78,8 @@ public class JodaTimeUseCases {
 		sout("Date on 10th epoch day is :" + LocalDate.ofYearDay(5, 1));
 
 		sout("12/12/2012 date parsed with LocalDate parse method is :" + LocalDate.parse("2012-10-11").toString());
+
+		sout(LocalDate.parse("1990-12-30", DateTimeFormatter.ISO_LOCAL_DATE).toString());
 
 		sout("2018/11/20 date parsed with LocalDate parse method is :"
 
@@ -156,6 +167,8 @@ public class JodaTimeUseCases {
 		sout("Local Time parsed from 23:10:10 is "
 				+ LocalTime.parse("08:57:19.001", DateTimeFormatter.ofPattern("HH:mm:ss.SSS")));
 
+		sout("Local Time parsed from 23:10:10 is " + LocalTime.parse("08:57", DateTimeFormatter.ISO_LOCAL_TIME));
+
 		sout("My Birth  Time is : " + myBirthTime);
 
 		sout("My Birth  Time set to 29/11/1991 is : " + myBirthTime.atDate(LocalDate.of(1991, 11, 29)));
@@ -212,24 +225,41 @@ public class JodaTimeUseCases {
 
 	private static void localDateTimeUseCases() {
 		sout("Max Local DateTime is" + LocalDateTime.MAX);
+
 		sout("Min Local DateTime is" + LocalDateTime.MIN);
+
 		sout("Now Date Time is " + LocalDateTime.now());
+
 		sout("Available zones are " + ZoneId.getAvailableZoneIds());
+
 		sout("Date Time in +0630 zone is  " + LocalDateTime.now(ZoneId.of("+0630")));
+
 		sout("My Birth date and time is : " + LocalDateTime.of(1990, 12, 30, 8, 57, 30, 1));
+
 		sout("My Birth date and time with LocalDate and LocalTime objects is : "
 				+ LocalDateTime.of(myBirthDay, myBirthTime));
+
 		sout("My Birth Date and Time parsed from 1990-12-30T08:57:30.000000001 is: "
 				+ LocalDateTime.parse("1990-12-30T08:57:30.000000001"));
+
 		sout("My Birth Date and Time parsed from 1990-12-30T08:57:30.000000001 is: " + LocalDateTime
 				.parse("1990/12/30T08:57:30.001", DateTimeFormatter.ofPattern("uuuu/MM/dd'T'HH:mm:ss.SSS")));
+
+		sout("My Birth Date and Time parsed from 1990-12-30T08:57:30.000000001 is: "
+				+ LocalDateTime.parse("1990-12-30T08:57:30.00001", DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
 		sout("My Birth Date and Time in zone +0630 is :" + myBirthDateAndTime.atZone(ZoneId.of("+0630")));
+
 		sout("My Comparison with my sister's birthDate and Time is :"
 				+ myBirthDateAndTime.compareTo(mySisterBirthDateAndTime));
+
 		sout(myBirthDateAndTime.format(DateTimeFormatter.ofPattern("E,d-MM-uu'T'HH:mm:ss.SSS")));
+
 		sout("Date Time Two months before my birth is : " + myBirthDateAndTime.minus(Period.ofMonths(11)));
+
 		sout("Date Time Two Hours 3 min and 4 seconds before my birth is : " + myBirthDateAndTime
 				.minus(Duration.ofHours(2)).minus(Duration.ofMinutes(3)).minus(Duration.ofSeconds(4)));
+
 		sout("Date Time after 2 hours , 3 minutes and 3 seconds after my birth day is " + myBirthDateAndTime
 				.plus(Duration.ofHours(2).plus(Duration.ofMinutes(3)).plus(Duration.ofSeconds(3)).plusNanos(4)));
 
@@ -256,10 +286,112 @@ public class JodaTimeUseCases {
 		sout("Adjusting my birth date time with day of week as 6 "
 				+ myBirthDateAndTime.with(ChronoField.DAY_OF_WEEK, 1));
 
+		sout(myBirthDateAndTime.format(DateTimeFormatter.BASIC_ISO_DATE));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_DATE));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_DATE_TIME));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_LOCAL_DATE));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_LOCAL_TIME));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_TIME));
+		sout(myBirthDateAndTime.format(DateTimeFormatter.ISO_WEEK_DATE));
+
+	}
+
+	private static void zonedDateTimeUseCases() {
+		// Creation Of Object.
+		ZonedDateTime now = ZonedDateTime.now();
+		sout("Now the Date is : " + now);
+
+		sout("Now with supplied Zone Id as system default is " + ZonedDateTime.now(ZoneId.systemDefault()));
+
+		sout(ZoneId.getAvailableZoneIds().toString());
+
+		sout("Now with supplied Zone Id as system default is " + ZonedDateTime.now(ZoneId.of("+06:00")));
+
+		sout("MyBirthDateTime with GMT time zone is :" + ZonedDateTime.of(myBirthDateAndTime, ZoneId.of("+05:30")));
+
+		sout("My Birth date parsed is : " + ZonedDateTime.parse("1990-12-30T08:57:04.001+05:30[Asia/Kolkata]"));
+
+		sout("My Birth date parsed is : " + ZonedDateTime.parse("1990-12-30T08:57:04.000001+05:30[Asia/Kolkata]",
+				DateTimeFormatter.ISO_ZONED_DATE_TIME));
+
+		sout("My Birth Date is " + ZonedDateTime.parse("Sunday,30/Dec/1990T08:57:30.001+05:30",
+				DateTimeFormatter.ofPattern("EEEE,dd/MMM/uuuu'T'HH:mm:ss.SSSz")));
+
+		sout("My Birth date parsed is : "
+				+ ZonedDateTime.parse("1990-12-30T08:57:04.0000011+05:30", DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+		sout("My sister's birthday is : "
+				+ ZonedDateTime.parse("1993-09-19T09:32:14.010011+05:30", DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+
+		// Formatting Dates
+		sout("BASIC_ISO_DATE " + myBirthDateWithTimeZone.format(DateTimeFormatter.BASIC_ISO_DATE));
+		sout("ISO_DATE " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_DATE));
+		sout("ISO_DATE_TIME " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_DATE_TIME));
+		// Local Date Time
+		sout("ISO_LOCAL_DATE " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_LOCAL_DATE));
+		sout("ISO_LOCAL_TIME " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_LOCAL_TIME));
+		sout("ISO_LOCAL_DATE_TIME " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+		// Offset Date Time
+		sout("ISO_OFFSET_DATE " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_OFFSET_DATE));
+		sout("ISO_OFFSET_TIME " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_OFFSET_TIME));
+		sout("ISO_OFFSET_DATE_TIME " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+		// Zoned Date Time
+		sout("ISO_ZONED_DATE_TIME " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
+		sout("ISO_INSTANT " + myBirthDateWithTimeZone.format(DateTimeFormatter.ISO_INSTANT));
+
+		// Getters
+		sout("Instant on my birthday is : " + myBirthDateWithTimeZone.toInstant());
+		sout("Time zone of my birth is :" + myBirthDateWithTimeZone.getZone());
+		sout("Time zone of my birth is :" + myBirthDateWithTimeZone.getYear());
+
+		// comparing
+		sout("My Birth Time in comparison to my sister " + myBirthDateWithTimeZone.compareTo(mySisterDateWithTimeZone));
+		System.out.println(
+				"Is My Birthday before my sister : " + myBirthDateWithTimeZone.isBefore(mySisterDateWithTimeZone));
+
+		System.out.println(
+				"Is My Birthday after my sister : " + myBirthDateWithTimeZone.isAfter(mySisterDateWithTimeZone));
+
+		System.out.println(
+				"Is My Birthday equal to  my sister : " + myBirthDateWithTimeZone.isEqual(mySisterDateWithTimeZone));
+
+		ZonedDateTime myBirthDay12Years1Month3DaysBefore = myBirthDateWithTimeZone.minus(Period.of(10, 1, 3))
+				.minus(1, ChronoUnit.YEARS).minusYears(1);
+		sout("Day before 12 years , 1 month and 3 days before my birthday is : " + myBirthDay12Years1Month3DaysBefore);
+
+		sout("My Birthdate again is :"
+				+ myBirthDay12Years1Month3DaysBefore.plus(10, ChronoUnit.YEARS).plus(Period.of(2, 1, 3)));
+
+		sout("Instant i was born:" + myBirthDateWithTimeZone.toInstant());
+		sout("Instant my sister was born:" + mySisterDateWithTimeZone.toInstant());
+
+		sout("My Birthdate time with zone +06:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+06:30")));
+		
+		sout("Flight to India from America at 2018-11-21T19:17:15.000000001-12:00 is allowed to cancel :" + CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001-12:00"));
+		sout("Flight to India from America at 2018-11-21T19:17:15.000000001+05:30 is allowed to cancel :" + CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001+05:30"));
+		
+		sout("My Birthdate time with zone +06:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+06:30")));
+		sout("My Birthdate time with zone +07:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+07:30")));
+		sout("My Birthdate time with zone +08:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+08:30")));
+		sout("My Birthdate time with zone +09:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+09:30")));
+		sout("My Birthdate time with zone +10:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+10:30")));
+		
+
 	}
 
 	private static void sout(String message) {
 		messageConsumer.accept(message + "\n");
+	}
+
+	private static Predicate<String> cancellationAllowedCheckerImpl() {
+		return date -> ZonedDateTime.parse(date).isAfter(ZonedDateTime.now(ZoneId.systemDefault()));
 	}
 
 }
