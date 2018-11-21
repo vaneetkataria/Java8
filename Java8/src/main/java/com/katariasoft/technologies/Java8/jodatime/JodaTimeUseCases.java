@@ -17,7 +17,8 @@ import java.util.function.Predicate;
 public class JodaTimeUseCases {
 
 	private static Consumer<String> messageConsumer = System.out::println;
-	private static Predicate<String> CancellationAllowedChecker = cancellationAllowedCheckerImpl();
+	private static Predicate<String> CancellationAllowedChecker = date -> ZonedDateTime.parse(date)
+			.isAfter(ZonedDateTime.now(ZoneId.systemDefault()));
 	private static LocalDate myBirthDay = LocalDate.of(1990, Month.DECEMBER, 30);
 	private static LocalDate myMothersBirthDay = LocalDate.of(1990, Month.DECEMBER, 30);
 	private static LocalDate newYear1991 = LocalDate.of(1991, Month.JANUARY, 01);
@@ -36,7 +37,7 @@ public class JodaTimeUseCases {
 	private static final String zonedDateTime = "zonedDateTime";
 
 	public static void main(String args[]) {
-		String testCase = zonedDateTime;
+		String testCase = localTime;
 		switch (testCase) {
 		case localDate:
 			localDateUseCases();
@@ -188,6 +189,7 @@ public class JodaTimeUseCases {
 
 		sout("Is my birth time before my wife  :" + myBirthTime.isBefore(myWifeBirthTime));
 
+		myBirthTime.plus(Duration.ofDays(10));
 		sout("0 hour 35 min 30 sec and 515 nanos after my birth is :"
 				+ myBirthTime.plusHours(0).plusMinutes(35).plusSeconds(30).plusNanos(515));
 
@@ -349,29 +351,25 @@ public class JodaTimeUseCases {
 		sout("My Birth Time in comparison to my sister " + myBirthDateWithTimeZone.compareTo(mySisterDateWithTimeZone));
 		System.out.println(
 				"Is My Birthday before my sister : " + myBirthDateWithTimeZone.isBefore(mySisterDateWithTimeZone));
-
 		System.out.println(
 				"Is My Birthday after my sister : " + myBirthDateWithTimeZone.isAfter(mySisterDateWithTimeZone));
-
 		System.out.println(
 				"Is My Birthday equal to  my sister : " + myBirthDateWithTimeZone.isEqual(mySisterDateWithTimeZone));
 
+		// plus-minus
 		ZonedDateTime myBirthDay12Years1Month3DaysBefore = myBirthDateWithTimeZone.minus(Period.of(10, 1, 3))
 				.minus(1, ChronoUnit.YEARS).minusYears(1);
 		sout("Day before 12 years , 1 month and 3 days before my birthday is : " + myBirthDay12Years1Month3DaysBefore);
-
 		sout("My Birthdate again is :"
 				+ myBirthDay12Years1Month3DaysBefore.plus(10, ChronoUnit.YEARS).plus(Period.of(2, 1, 3)));
 
+		// tos
 		sout("Instant i was born:" + myBirthDateWithTimeZone.toInstant());
 		sout("Instant my sister was born:" + mySisterDateWithTimeZone.toInstant());
 
+		// withZoneSameInstant
 		sout("My Birthdate time with zone +06:30 same instant is :"
 				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+06:30")));
-		
-		sout("Flight to India from America at 2018-11-21T19:17:15.000000001-12:00 is allowed to cancel :" + CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001-12:00"));
-		sout("Flight to India from America at 2018-11-21T19:17:15.000000001+05:30 is allowed to cancel :" + CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001+05:30"));
-		
 		sout("My Birthdate time with zone +06:30 same instant is :"
 				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+06:30")));
 		sout("My Birthdate time with zone +07:30 same instant is :"
@@ -382,16 +380,21 @@ public class JodaTimeUseCases {
 				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+09:30")));
 		sout("My Birthdate time with zone +10:30 same instant is :"
 				+ myBirthDateWithTimeZone.withZoneSameInstant(ZoneId.of("+10:30")));
-		
+
+		// with zone same local
+		sout("My sister Birthdate time with zone +10:30 same instant is :"
+				+ myBirthDateWithTimeZone.withZoneSameLocal(ZoneId.of("+06:30")));
+
+		// flight cancellation predicate test
+		sout("Flight to India from America at 2018-11-21T19:17:15.000000001-12:00 is allowed to cancel :"
+				+ CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001-12:00"));
+		sout("Flight to India from America at 2018-11-21T19:17:15.000000001+05:30 is allowed to cancel :"
+				+ CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001+05:30"));
 
 	}
 
 	private static void sout(String message) {
 		messageConsumer.accept(message + "\n");
-	}
-
-	private static Predicate<String> cancellationAllowedCheckerImpl() {
-		return date -> ZonedDateTime.parse(date).isAfter(ZonedDateTime.now(ZoneId.systemDefault()));
 	}
 
 }
