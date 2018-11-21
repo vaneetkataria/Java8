@@ -418,8 +418,20 @@ public class DateTimeUseCases {
 		sout("Epoch millis from my birth is :" + myBirth.toEpochMilli());
 
 		sout(LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).toString());
-		
 
+		// Convert current Date Object to Instant and then to ZonedDateTime and
+		// OffsetDateTime
+		new Date().toInstant().atOffset(ZoneOffset.of("+05:30"));
+		new Date().toInstant().atZone(ZoneId.of("+05:30"));
+		// convert Date to LocalDateTime
+		new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		// convert Date to LocalDate
+		new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// convert milliseconds to LocalDateTime
+		Instant.ofEpochMilli(new Date().getTime()).atOffset(ZoneOffset.of("+05:30")).toLocalDateTime();
+
+		Date.from(myBirthDateAndTime.atOffset(ZoneOffset.of("+05:30")).toInstant());
+		Date.from(Instant.now());
 	}
 
 	private static void sout(String message) {
