@@ -1,20 +1,23 @@
-package com.katariasoft.technologies.Java8.jodatime;
+package com.katariasoft.technologies.Java8.time;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class JodaTimeUseCases {
+public class DateTimeUseCases {
 
 	private static Consumer<String> messageConsumer = System.out::println;
 	private static Predicate<String> CancellationAllowedChecker = date -> ZonedDateTime.parse(date)
@@ -30,26 +33,32 @@ public class JodaTimeUseCases {
 	private static LocalDateTime mySisterBirthDateAndTime = LocalDateTime.of(mySisterBirthDay, myBirthTime);
 	private static ZonedDateTime myBirthDateWithTimeZone = ZonedDateTime.of(myBirthDateAndTime, ZoneId.of("+05:30"));
 	private static ZonedDateTime mySisterDateWithTimeZone = ZonedDateTime.of(myBirthDateAndTime, ZoneId.of("+06:30"));
+	private static Instant myBirth = Instant.parse("1990-12-30T08:57:30.000000001Z");
+	private static Instant mySisterBirth = Instant.parse("1991-09-19T09:32:30.000000002Z");
 
 	private static final String localDate = "localDate";
 	private static final String localTime = "localTime";
 	private static final String localDateTime = "localDateTime";
 	private static final String zonedDateTime = "zonedDateTime";
+	private static final String instant = "instant";
 
 	public static void main(String args[]) {
-		String testCase = localTime;
+		String testCase = instant;
 		switch (testCase) {
 		case localDate:
-			localDateUseCases();
+			executeLocalDateUseCases();
 			break;
 		case localTime:
-			localTimeUseCases();
+			executeLocalTimeUseCases();
 			break;
 		case localDateTime:
-			localDateTimeUseCases();
+			executeLocalDateTimeUseCases();
 			break;
 		case zonedDateTime:
-			zonedDateTimeUseCases();
+			executeZonedDateTimeUseCases();
+			break;
+		case instant:
+			executeInstantUseCases();
 			break;
 		default:
 			break;
@@ -57,7 +66,7 @@ public class JodaTimeUseCases {
 
 	}
 
-	private static void localDateUseCases() {
+	private static void executeLocalDateUseCases() {
 		sout("Min Date is :" + LocalDate.MIN);
 
 		sout("Max Date is :" + LocalDate.MAX);
@@ -149,7 +158,7 @@ public class JodaTimeUseCases {
 		sout("My Birthday altered to 30/12/1990 again is: " + myBirthDay);
 	}
 
-	private static void localTimeUseCases() {
+	private static void executeLocalTimeUseCases() {
 		sout("Max Local Time is :" + LocalTime.MAX);
 
 		sout("Min Local Time is :" + LocalTime.MIN);
@@ -225,7 +234,7 @@ public class JodaTimeUseCases {
 
 	}
 
-	private static void localDateTimeUseCases() {
+	private static void executeLocalDateTimeUseCases() {
 		sout("Max Local DateTime is" + LocalDateTime.MAX);
 
 		sout("Min Local DateTime is" + LocalDateTime.MIN);
@@ -299,7 +308,7 @@ public class JodaTimeUseCases {
 
 	}
 
-	private static void zonedDateTimeUseCases() {
+	private static void executeZonedDateTimeUseCases() {
 		// Creation Of Object.
 		ZonedDateTime now = ZonedDateTime.now();
 		sout("Now the Date is : " + now);
@@ -390,6 +399,26 @@ public class JodaTimeUseCases {
 				+ CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001-12:00"));
 		sout("Flight to India from America at 2018-11-21T19:17:15.000000001+05:30 is allowed to cancel :"
 				+ CancellationAllowedChecker.test("2018-11-21T19:17:15.000000001+05:30"));
+
+	}
+
+	private static void executeInstantUseCases() {
+		sout("Max instant possible is :" + Instant.MAX);
+		sout("Min instant possible is :" + Instant.MIN);
+		sout("Epoch instant is " + Instant.EPOCH);
+		sout("Now the instant is " + Instant.now());
+		sout("My Birth Instant in zone ID +0530 is" + myBirth.atZone(ZoneId.of("+05:30")));
+		sout("My Birth instant after a plus minus journey is :  "
+				+ myBirth.plus(Duration.of(10, ChronoUnit.DAYS).plus(Duration.of(10, ChronoUnit.HOURS)))
+						.plus(Duration.of(1, ChronoUnit.MINUTES)).minus(Duration.of(10, ChronoUnit.DAYS))
+						.minus(Duration.of(10, ChronoUnit.HOURS)).minus(Duration.of(1, ChronoUnit.MINUTES)));
+		sout("My birth instant in Zone offset +0530 is :" + myBirth.atOffset(ZoneOffset.of("+05:30")));
+		sout("Num nanos in my birth Instant " + myBirth.getNano());
+		sout("Num epoch seconds on my birth is :" + myBirth.getEpochSecond());
+		sout("Epoch millis from my birth is :" + myBirth.toEpochMilli());
+
+		sout(LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()).toString());
+		
 
 	}
 
