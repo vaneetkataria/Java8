@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import com.katariasoft.technologies.Java8.beans.Employee;
@@ -48,26 +49,26 @@ public class ParallelStreamBenchMarks {
 		String testCase = "concurrentCollectionComparison";
 		switch (testCase) {
 		case compareFiltering:
-			executeFilteringComparisonArray(500000);
-			executeFilteringComparisonList(500000);
-			executeFilteringComparisonLinkedList(500000);
-			executeFilteringComparisonHashSet(500000);
-			executeFilteringComparisonTreeSet(500000);
+			executeFilteringComparisonArray(200000);
+			executeFilteringComparisonList(200000);
+			executeFilteringComparisonLinkedList(200000);
+			executeFilteringComparisonHashSet(200000);
+			executeFilteringComparisonTreeSet(200000);
 			break;
 		case sumComparison:
 			executeSumComparison(5000000);
 			break;
 		case distinctComparison:
-			executeDistinctComparison(500000);
+			executeDistinctComparison(5000000);
 			break;
 		case sortingComparison:
 			executeSortingComparison(500);
 			break;
 		case minMaxComparison:
-			executeMinMaxComparison(500);
+			executeMinMaxComparison(5000);
 			break;
 		case anyMatchAllMatchNoneMatch:
-			executeAnyMatchAllMatchNoneMatch(500000);
+			executeAnyMatchAllMatchNoneMatch(50000);
 			break;
 		case findFirstFindAny:
 			executeFindFirstFindAny(5000000);
@@ -91,18 +92,17 @@ public class ParallelStreamBenchMarks {
 		Instant instantStartParallel = Instant.now();
 		Arrays.stream(employees).parallel() // last one wins
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
-				.map(complexCpuIntensiveFunction).collect(Collectors.toCollection(TreeSet::new));
+				.map(complexCpuIntensiveFunction).collect(Collectors.toList());
 		executionTimePrinter.accept(parallel, instantStartParallel);
 
 		System.out.println("Next is sequnetial . ");
 		Instant instantStartSequntial = Instant.now();
 		Arrays.stream(employees).filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate())
-				.map(Employee::getSalary).map(complexCpuIntensiveFunction)
-				.collect(Collectors.toCollection(TreeSet::new));
+				.map(Employee::getSalary).map(complexCpuIntensiveFunction).collect(Collectors.toList());
 		executionTimePrinter.accept(sequntial, instantStartSequntial);
 
 		Instant instantStartLoop = Instant.now();
-		Set<Double> list = new TreeSet<>();
+		ArrayList<Double> list = new ArrayList<>();
 		for (Employee e : employees)
 			if (employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate().test(e)) {
 				list.add(complexCpuIntensiveFunction.apply(e.getSalary()));
@@ -288,27 +288,27 @@ public class ParallelStreamBenchMarks {
 	private static void executeSortingComparison(int size) {
 		System.out.println("Next is sequnetial . ");
 		Instant instantStartSequntial = Instant.now();
-		System.out.println(EmployeeList.getLargeEmployeeListOf(size).stream()
+		/* System.out.println( */EmployeeList.getLargeEmployeeListOf(size).stream()
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
-				.map(complexCpuIntensiveFunction).sorted(Comparator.reverseOrder()).collect(Collectors.toList()));
+				.map(complexCpuIntensiveFunction).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 		executionTimePrinter.accept(sequntial, instantStartSequntial);
 
 		// Parallel execution
 		System.out.println("Number of cpu cores are :" + Runtime.getRuntime().availableProcessors());
 		System.out.println("Next is parallel .");
 		Instant instantStartParallel = Instant.now();
-		System.out.println(EmployeeList.getLargeEmployeeListOf(size).parallelStream()
+		/* System.out.println( */EmployeeList.getLargeEmployeeListOf(size).parallelStream()
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
-				.map(complexCpuIntensiveFunction).sorted(Comparator.reverseOrder()).collect(Collectors.toList()));
+				.map(complexCpuIntensiveFunction).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 		executionTimePrinter.accept(parallel, instantStartParallel);
 
 		// Parallel execution
 		System.out.println("Number of cpu cores are :" + Runtime.getRuntime().availableProcessors());
 		System.out.println("Next is parallel .");
 		Instant instantStartParallelUnordered = Instant.now();
-		System.out.println(EmployeeList.getLargeEmployeeListOf(size).parallelStream().unordered()
+		/* System.out.println( */EmployeeList.getLargeEmployeeListOf(size).parallelStream().unordered()
 				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
-				.map(complexCpuIntensiveFunction).sorted(Comparator.reverseOrder()).collect(Collectors.toList()));
+				.map(complexCpuIntensiveFunction).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 		executionTimePrinter.accept("unordered_parallel", instantStartParallelUnordered);
 
 	}
@@ -487,7 +487,6 @@ public class ParallelStreamBenchMarks {
 	}
 
 	private static void executeConcurrentCollectionComparison(int size) {
-
 		System.out.println("Next is sequnetial collecting in normal hashmap . ");
 		Instant instantStartSequntial = Instant.now();
 		Map<Double, String> map1 = EmployeeList.getLargeEmployeeListOf(size).stream()
@@ -515,6 +514,35 @@ public class ParallelStreamBenchMarks {
 				.map(complexCpuIntensiveFunction)
 				.collect(Collectors.toConcurrentMap(d -> d, d -> d + "", (d1, d2) -> String.join(",", d1, d2)));
 		executionTimePrinter.accept("unordered_parallel", instantStartParallelOrdered);
+
+		System.out.println("#######Tree Map########");
+		System.out.println("Next is sequnetial collecting in normal hashmap . ");
+		Instant instantStartSequntial1 = Instant.now();
+		EmployeeList.getLargeEmployeeListOf(size).stream()
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
+				.map(complexCpuIntensiveFunction)
+				.collect(Collectors.toMap(d -> d, d -> d + "", (d1, d2) -> String.join(",", d1, d2), TreeMap::new));
+		executionTimePrinter.accept(sequntial, instantStartSequntial1);
+
+		// ordered Parallel execution
+		System.out.println("Number of cpu cores are :" + Runtime.getRuntime().availableProcessors());
+		System.out.println("Next is ordered parallel collecting in hasmap .");
+		Instant instantStartParallel1 = Instant.now();
+		EmployeeList.getLargeEmployeeListOf(size).parallelStream()
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
+				.map(complexCpuIntensiveFunction)
+				.collect(Collectors.toMap(d -> d, d -> d + "", (d1, d2) -> String.join(",", d1, d2), TreeMap::new));
+		executionTimePrinter.accept("parallel", instantStartParallel1);
+
+		// unordered Parallel execution
+		System.out.println("Number of cpu cores are :" + Runtime.getRuntime().availableProcessors());
+		System.out.println("Next is parallel collecting in concurrent Map .");
+		Instant instantStartParallelOrdered1 = Instant.now();
+		EmployeeList.getLargeEmployeeListOf(size).parallelStream()
+				.filter(employeeFilterWithPredicate.getPromotionEligibleEmployeesPredicate()).map(Employee::getSalary)
+				.map(complexCpuIntensiveFunction)
+				.collect(Collectors.toConcurrentMap(d -> d, d -> d + "", (d1, d2) -> String.join(",", d1, d2)));
+		executionTimePrinter.accept("unordered_parallel", instantStartParallelOrdered1);
 
 	}
 
