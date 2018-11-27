@@ -257,8 +257,6 @@ public class ParallelStreamBenchMarks {
 
 	}
 
-	// ############################################################################################
-
 	private static void executeSumComparison(int size) {
 		double totalSalary = 0.0d;
 		// Parallel execution
