@@ -55,7 +55,7 @@ import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
  *      intermediately then parallel performance is decreased . Hence hashMap will give better than treemap 
  *      if data size is enough . Also If data being collected is very large then concurrentHashMap will 
  *      give better performance than hashMap as merging overhead is not there . But data should be large
- *      for small data hashmap will win .          
+ *      for small data hashmap will win . All above conditions good parallel is better than sequential .          
  *      
  * /
  */
@@ -104,7 +104,7 @@ public class ParallelStreamBenchMarks {
 			executeFindFirstFindAny(5000000);
 			break;
 		case concurrentCollectionComparison:
-			executeConcurrentCollectionComparison(5000);
+			executeConcurrentCollectionComparison(50000);
 			break;
 		default:
 			break;
