@@ -27,8 +27,38 @@ import com.katariasoft.technologies.Java8.util.employee.EmployeeList;
 //4. Check how ConcurrentHashMap gives better performance in collectors instead of HashMap and 
 //   check if we can use any concurrent map which ensures order or not .......... done
 //6. Check no of threads in system common fork join pool . Increase number of threads in common pool .......... done
+//8. -Djava.util.concurrent.ForkJoinPool.common.parallelism=20 ... done 
 //7. Use custom Fork Join pool .  
-//8. -Djava.util.concurrent.ForkJoinPool.common.parallelism=20
+
+/* Primary conditions for Benchmarking : 
+ * 1 .  Type of collection :  Taking Parallel Stream on Arrays and ArrayList are beneficial to get parallel stream benefits 
+ *      as Arrays and ArrayList are easily split able data structures . However LinkedList , HashSet and TreeSets
+ *      have very poor performance for parallel streams . Hence avoid going parallel with LinkedList , 
+ *      HashSet and TreeSet . 
+ *     
+ * 2.   Size of collection : Generally for small size collections up to order of 50000 parallelism is not
+ *      giving benefits over sequential executions  .However size is some what method dependent : 
+ * 2.1. Simple filter , maps , for each are found very less efficient in parallel execution . 
+ * 2.2. distinct , sorted , findFirst , findAny , allMatch , anyMatch , noneMatch , min , max etc are 
+ *      giving good parallel performance even with small size lists like in order of 500 or fifty . For larger
+ *      lists they are similarly beneficial too . 
+ * 2.3. In methods distinct , sorted , findFirst , findAny , allMatch , anyMatch , noneMatch , min , max 
+ *      by default stability is considered which means between two equal objects the object appearing first is 
+ *      considered for anything . But if parallelStream().unordered() is used then even better performace is 
+ *      achieved in above methods .  
+ * 
+ * 3.   Complexity of cpu work is also beneficial . If work to be performed parallely is not much cpu intensive
+ *      then sequential will win . A moderately or highly complex function is required for better performance 
+ *      in parallel streams . 
+ *
+ * 4.   Finally sink data structure is important . If sink is anything which is difficult to merge
+ *      intermediately then parallel performance is decreased . Hence hashMap will give better than treemap 
+ *      if data size is enough . Also If data being collected is very large then concurrentHashMap will 
+ *      give better performance than hashMap as merging overhead is not there . But data should be large
+ *      for small data hashmap will win .          
+ *      
+ * /
+ */
 
 public class ParallelStreamBenchMarks {
 
