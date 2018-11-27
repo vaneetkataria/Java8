@@ -26,7 +26,7 @@ public class EmployeeListSorterUsingComparing {
 			.thenComparing(byName).thenComparing(byMobileNo).thenComparing(byAddress);
 
 	// composite sorter chained
-	private Comparator<Employee> byRelevanceChained = Comparator.comparingDouble((Employee e) -> e.getSalary())
+	private Comparator<Employee> byRelevanceChained = Comparator.comparingDouble(Employee::getSalary)
 			.thenComparing(Comparator.comparingInt(e -> e.getAge()))
 			.thenComparing(Comparator.comparing(e -> e.getDesignationBand()))
 			.thenComparing(Comparator.comparing(e -> e.getName()))
@@ -39,7 +39,7 @@ public class EmployeeListSorterUsingComparing {
 	private Comparator<Employee> reverseOrderCompataror = Comparator.reverseOrder();
 
 	public Comparator<Employee> getByRelevance() {
-		return byRelevanceChained;
+		return byName;
 	}
 
 	public static void main(String args[]) {

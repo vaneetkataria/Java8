@@ -8,6 +8,7 @@ public class Employee implements Comparable<Employee> {
 
 	Comparator<Employee> sortByRelevanceComparator = new EmployeeListSorterUsingComparing().getByRelevance();
 
+	private long id;
 	private String name;
 	private byte age;
 	private String designation;
@@ -35,6 +36,14 @@ public class Employee implements Comparable<Employee> {
 	}
 
 	public Employee() {
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNameOf(Employee e) {

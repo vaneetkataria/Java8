@@ -12,6 +12,8 @@ public class EmployeeFilterWithPredicate {
 
 	private Predicate<Employee> havingDesignationTechLead = e -> Objects.nonNull(e)
 			&& Objects.nonNull(e.getDesignation()) && "techlead".equalsIgnoreCase(e.getDesignation());
+	private Predicate<Employee> havingDesignationSSe = e -> Objects.nonNull(e)
+			&& "sse".equalsIgnoreCase(e.getDesignation());
 	private Predicate<Employee> havingSalaryGreterThan25000 = e -> Objects.nonNull(e) && Objects.nonNull(e.getSalary())
 			&& e.getSalary() > 25000;
 	private Predicate<Employee> havingLocationAmbala = e -> Objects.nonNull(e) && Objects.nonNull(e.getLocation())
@@ -35,7 +37,8 @@ public class EmployeeFilterWithPredicate {
 	private Predicate<Employee> pinkSlipEmployee = havingDesignationTechLead.and(havingSalaryGreterThan25000)
 			.and(withSexMale).and(havingLocationAmbala);
 	// promote male working in up having status married.
-	private Predicate<Employee> promotionEligible = (havingMaritalStatusMarried.negate()).and(havingLocationUp);
+	private Predicate<Employee> promotionEligible = (havingMaritalStatusMarried.negate()).and(havingLocationUp)
+			.and(havingDesignationSSe);
 	// private Predicate<Employee> promotionEligible =
 	// (havingMaritalStatusMarried.negate()).and(e -> false);
 	// on site eligible
