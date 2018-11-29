@@ -1,12 +1,27 @@
 package com.katariasoft.technologies.Java8.beans;
 
 import java.util.Comparator;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.katariasoft.technologies.Java8.streams.EmployeeListSorterUsingComparing;
 
 public class Employee implements Comparable<Employee> {
 
 	Comparator<Employee> sortByRelevanceComparator = new EmployeeListSorterUsingComparing().getByRelevance();
+	private Function<Employee, String> nameProvider = e -> e.getName();
+
+	/*
+	 * Here Functional interface is taking 1 argument and implementation method
+	 * reference is taking no arguments This is 1-0 rule for instance methods .
+	 */
+	private Function<Employee, String> nameProviderByMethodRef = Employee::getName;
+	private BiFunction<Employee, Employee, String> twoEmployeeesNameProvider = (e1, e2) -> e1.getName() + " "
+			+ e2.getName();
+	// Here again 1-0 rule holds true . As Functional interface is taking two
+	// arguments and
+	// instance method is taking 1 argument .
+	private BiFunction<Employee, Employee, String> twoEmployeeesNameProviderByMethodRef = Employee::twoEmployeesNameProvider;
 
 	private long id;
 	private String name;
@@ -33,6 +48,10 @@ public class Employee implements Comparable<Employee> {
 		this.sex = sex;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
+	}
+
+	public String twoEmployeesNameProvider(Employee e2) {
+		return this.getName() + " " + e2.getName();
 	}
 
 	public Employee() {
