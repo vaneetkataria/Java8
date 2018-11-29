@@ -16,7 +16,7 @@ public class Employee implements Comparable<Employee> {
 	 * reference is taking no arguments This is 1-0 rule for instance methods .
 	 */
 	private Function<Employee, String> nameProviderByMethodRef = Employee::getName;
-	private BiFunction<Employee, Employee, String> twoEmployeeesNameProvider = (e1, e2) -> e1.getName() + " "
+	private static BiFunction<Employee, Employee, String> twoEmployeeesNameProvider = (e1, e2) -> e1.getName() + " "
 			+ e2.getName();
 	// Here again 1-0 rule holds true . As Functional interface is taking two
 	// arguments and
@@ -243,7 +243,7 @@ public class Employee implements Comparable<Employee> {
 		e1.setName("Vaneet");
 		Employee e2 = new Employee();
 		e2.setName("Sahil");
-		System.out.println(twoEmployeeesNameProviderByMethodRef.apply(e1, e2));
+		System.out.println(twoEmployeeesNameProvider.apply(e1, e2));
 
 	}
 
