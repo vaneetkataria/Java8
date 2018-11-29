@@ -21,7 +21,7 @@ public class Employee implements Comparable<Employee> {
 	// Here again 1-0 rule holds true . As Functional interface is taking two
 	// arguments and
 	// instance method is taking 1 argument .
-	private BiFunction<Employee, Employee, String> twoEmployeeesNameProviderByMethodRef = Employee::twoEmployeesNameProvider;
+	private static BiFunction<Employee, Employee, String> twoEmployeeesNameProviderByMethodRef = Employee::twoEmployeesNameProvider;
 
 	private long id;
 	private String name;
@@ -233,7 +233,18 @@ public class Employee implements Comparable<Employee> {
 
 	@Override
 	public int compareTo(Employee o) {
+
 		return sortByRelevanceComparator.compare(this, o);
+
+	}
+
+	public static void main(String args[]) {
+		Employee e1 = new Employee();
+		e1.setName("Vaneet");
+		Employee e2 = new Employee();
+		e2.setName("Sahil");
+		System.out.println(twoEmployeeesNameProviderByMethodRef.apply(e1, e2));
+
 	}
 
 }
